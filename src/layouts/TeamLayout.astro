@@ -1,0 +1,126 @@
+---
+// Assets
+import { Image } from "astro:assets";
+// Fundations
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Components
+import BlogCard from "@/components/blog/BlogCard.astro";
+// Load all posts
+import { getCollection } from "astro:content";
+// Content
+const allPosts = await getCollection("posts");
+// Get the team slug from the URL
+const teamSlug = Astro.url.pathname.split("/").filter(Boolean).pop();
+// Filter posts by this team (based on slug)
+const relatedPosts = allPosts.filter((post) => post.data.team === teamSlug);
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout >
+  <section>
+    <Wrapper variant="standard" >
+      <div >
+        <Text
+          tag="a"
+          href="javascript:history.back()"
+          variant="textXS"
+          
+        >
+          &larr; Go back
+        </Text>
+        <Text
+          tag="p"
+          variant="textXL"
+          
+        >
+          <span >
+            {frontmatter.name}
+          </span>
+
+          <span >{frontmatter.role}</span>
+        </Text>
+        <Image
+          alt={frontmatter.image.alt}
+          src={frontmatter.image.url}
+          width={800}
+          height={800}
+          loading="lazy"
+          decoding="async"
+          
+        />
+        <div >
+          {
+            frontmatter.bio.split("\n").map((paragraph) => (
+              <Text
+                tag="p"
+                variant="textSM"
+                
+              >
+                {paragraph}
+              </Text>
+            ))
+          }
+        </div>
+        <div>
+          {/* Social Media Links */}
+          <a
+            href={frontmatter.socials.twitter}
+            
+            aria-label="X"
+          >
+            Twitter
+          </a>
+          <a
+            href={frontmatter.socials.linkedin}
+            
+            aria-label="LinkedIn"
+          >
+            Linkedin
+          </a>
+          <a
+            href={frontmatter.socials.email}
+            
+            aria-label="Email"
+          >
+            Email
+          </a>
+          <a
+            href={frontmatter.socials.website}
+            
+            aria-label="Website"
+          >
+            Website
+          </a>
+        </div>
+      </div>
+    </Wrapper>
+  </section>
+  <section>
+    <Wrapper variant="standard" >
+      <div >
+        {
+          relatedPosts.length > 0 && (
+            <div >
+              <Text
+                tag="h2"
+                variant="textBase"
+                
+              >
+                More from
+                <span >{teamSlug.replace(/-/g, " ")}</span>
+              </Text>
+
+              <div >
+                {relatedPosts.map((post) => (
+                  <BlogCard post={post} />
+                ))}
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>

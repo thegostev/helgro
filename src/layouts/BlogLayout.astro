@@ -1,0 +1,87 @@
+---
+// Assets
+import { Image } from "astro:assets";
+// Fundations
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Sections
+import BlogCard from "@/components/blog/BlogCard.astro";
+const { frontmatter } = Astro.props;
+import { getEntry } from "astro:content";
+const team = await getEntry("team", frontmatter.team);
+// Get all posts and filter by tag
+import { getCollection } from "astro:content";
+const allPosts = await getCollection("posts");
+const relatedPosts = allPosts.filter((post) =>
+  post.data.tags.some((tag) => frontmatter.tags.includes(tag))
+);
+---
+
+<BaseLayout>
+  <section>
+    <Wrapper variant="standard">
+      <div>
+        {frontmatter.tags.map((tag) => <a href={`/blog/tags/${tag}`}>{tag}</a>)}
+        <Text tag="p" variant="textXL">
+          <span>
+            {frontmatter.category}
+          </span>
+          <span>{frontmatter.title}</span>
+        </Text>
+        <Text tag="p" variant="textXL">
+          {frontmatter.description}
+        </Text>
+        <a href={`/team/${team.slug}`}></a>
+        <Text tag="p" variant="textSM">
+          <span>
+            Written in
+            <span>
+              <time datetime={new Date(frontmatter.pubDate).toISOString()}>
+                {
+                  new Date(frontmatter.pubDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "2-digit",
+                  })
+                }
+              </time>
+            </span>
+          </span>
+          <span>
+            by
+            <span>
+              {team.data.name}
+            </span>
+          </span>
+        </Text>
+        <Image
+          width={1400}
+          height={1400}
+          src={frontmatter.image.url}
+          alt={frontmatter.image.alt}
+        />
+        <Text tag="p" variant="textSM">
+          <em>{frontmatter.description}</em>
+        </Text>
+      </div>
+      <Wrapper variant="prose"><slot /></Wrapper>
+    </Wrapper>
+  </section>
+  {
+    relatedPosts.length > 0 && (
+      <section>
+        <Wrapper variant="standard">
+          <Text tag="h2" variant="textBase">
+            Related posts
+          </Text>
+          <div>
+            {relatedPosts.slice(0, 3).map((post) => (
+              <BlogCard post={post} />
+            ))}
+          </div>
+        </Wrapper>
+      </section>
+    )
+  }
+</BaseLayout>

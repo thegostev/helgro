@@ -1,0 +1,30 @@
+---
+// Fundations
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Components
+import TeamCard from "@/components/team/TeamCard.astro";
+// Content
+import { getCollection } from "astro:content";
+const allAuthors = await getCollection("team");
+---
+<BaseLayout>
+  <section>
+    <Wrapper variant="standard">
+      <Text tag="h1" variant="textBase"> Our photographers </Text>
+      <div>
+        {
+          // Sorting authors alphabetically inline
+          allAuthors
+            .sort((a, b) => {
+              const nameA = a.data.name.toLowerCase();
+              const nameB = b.data.name.toLowerCase();
+              return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+            })
+            .map((post) => <TeamCard post={post} />)
+        }
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>
