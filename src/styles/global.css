@@ -6,19 +6,6 @@
   /* Typography */
   --font-sans: "Inter", sans-serif;
   /* Colors */
-  --color-black: oklch(0.171 0.004 229.1);
-  /* Accent */
-  --color-accent-50: oklch(0.97 0.005 145.5);
-  --color-accent-100: oklch(0.927 0.011 141.3);
-  --color-accent-200: oklch(0.855 0.02 143);
-  --color-accent-300: oklch(0.75 0.033 146.7);
-  --color-accent-400: oklch(0.627 0.046 146.1);
-  --color-accent-500: oklch(0.574 0.056 146.5);
-  --color-accent-600: oklch(0.439 0.044 147);
-  --color-accent-700: oklch(0.377 0.035 147.8);
-  --color-accent-800: oklch(0.331 0.03 148.5);
-  --color-accent-900: oklch(0.295 0.024 149.6);
-  --color-accent-950: oklch(0.21 0.013 149.9);
   /* Base */
   --color-base-50: oklch(0.985 0 0);
   --color-base-100: oklch(0.97 0 0);
