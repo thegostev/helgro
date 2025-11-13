@@ -1,11 +1,32 @@
 ---
 // Fundations
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Sections
+import Hero from "@/components/landing/Hero.astro";
+import Intro from "@/components/landing/Intro.astro";
+import ProjectPreview from "@/components/landing/ProjectPreview.astro";
+import Stats from "@/components/landing/Stats.astro";
+import ServicesPreview from "@/components/landing/ServicesPreview.astro";
+import Philosophy from "@/components/landing/Philosophy.astro";
+import Process from "@/components/landing/Process.astro";
+import Testimonials from "@/components/landing/Testimonials.astro";
+import BlogPreview from "@/components/landing/BlogPreview.astro";
+// Scripts
+import KeenSliderTestimonials from "@/components/fundations/scripts/KeenSliderTestimonials.astro";
+import KeenSliderProjectCardScript from "@/components/fundations/scripts/KeenSliderProjectCardScript.astro";
 ---
 
 <BaseLayout>
-  <section>
-    <Wrapper variant="standard" > Hero </Wrapper>
-  </section>
+  <Hero />
+  <Intro />
+  <ProjectPreview />
+  <Stats />
+  <ServicesPreview />
+  <Philosophy />
+  <Process />
+  <Testimonials />
+  <BlogPreview />
 </BaseLayout>
+<!-- Scripts -->
+<KeenSliderTestimonials />
+<KeenSliderProjectCardScript />

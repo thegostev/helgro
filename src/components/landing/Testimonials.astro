@@ -1,0 +1,155 @@
+---
+// Astro
+import { Image } from "astro:assets";
+// Images
+import davidAvatar from "@/images/testimonials/david.png";
+import emilyAvatar from "@/images/testimonials/emily.png";
+import lisaAvatar from "@/images/testimonials/lisa.png";
+import michaelAvatar from "@/images/testimonials/michael.png";
+import robertAvatar from "@/images/testimonials/robert.png";
+import saraAvatar from "@/images/testimonials/sara.png";
+// Fundations
+import Text from "@/components/fundations/elements/Text.astro";
+import Kicker from "@/components/fundations/elements/Kicker.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import Button from "@/components/fundations/elements/Button.astro";
+// Icons
+import ArrowLeft from "@/components/fundations/icons/ArrowLeft.astro";
+import ArrowRight from "@/components/fundations/icons/ArrowRight.astro";
+
+const testimonials = [
+  {
+    quote:
+      "Ashbury transformed our home into a sanctuary that perfectly blends modern comfort with timeless elegance. Their attention to detail and sustainable approach exceeded our expectations.",
+    author: "Sarah Johnson",
+    role: "Homeowner",
+    location: "Austin, TX",
+    avatar: saraAvatar,
+  },
+  {
+    quote:
+      "Working with Ashbury on our office redesign was incredible. They created a space that boosts productivity while maintaining a warm, inviting atmosphere for our team.",
+    author: "Michael Chen",
+    role: "CEO",
+    location: "San Francisco, CA",
+    avatar: michaelAvatar,
+  },
+  {
+    quote:
+      "The boutique hotel project with Ashbury was a masterpiece. They understood our vision perfectly and delivered interiors that tell a story and create unforgettable experiences.",
+    author: "Emma Rodriguez",
+    role: "Hotel Owner",
+    location: "Santa Fe, NM",
+    avatar: emilyAvatar,
+  },
+  {
+    quote:
+      "Ashbury's sustainable approach to our restaurant design not only looks beautiful but also aligns perfectly with our commitment to eco-friendly dining.",
+    author: "David Park",
+    role: "Restaurant Owner",
+    location: "Portland, OR",
+    avatar: davidAvatar,
+  },
+  {
+    quote:
+      "From concept to completion, Ashbury brought our retail space vision to life. Their innovative design solutions and flawless execution made our store a destination for customers.",
+    author: "Lisa Thompson",
+    role: "Retail Owner",
+    location: "Seattle, WA",
+    avatar: lisaAvatar,
+  },
+  {
+    quote:
+      "Ashbury's expertise in commercial spaces is unmatched. They transformed our outdated office into a modern, functional workspace that our employees love coming to every day.",
+    author: "Robert Martinez",
+    role: "Operations Director",
+    location: "Denver, CO",
+    avatar: robertAvatar,
+  },
+];
+---
+
+<section class="overflow-hidden">
+  <Wrapper variant="paddingless" class="py-12">
+    <div
+      class="grid grid-cols-1 lg:grid-cols-3 items-start gap-y-4 xl:ml-8 gap-4"
+    >
+      <div
+        class="order-last p-4 xl:p-8 lg:bg-white lg:rounded-2xl justify-between flex flex-col h-full lg:order-first max-w-screen lg:h-[calc(100vh-8rem)]"
+      >
+        <div>
+          <Text
+            tag="h2"
+            variant="textXL"
+            class="text-base-900 mt-4 text-balance font-medium"
+          >
+            Real partner stories, brought to life through creativity,
+            strategy,and brand experiences that stick.
+          </Text>
+        </div>
+        <div class="flex items-center gap-4 mt-8">
+          <Button
+            size="sm"
+            variant="muted"
+            iconOnly
+            aria-label="Previous testimonial"
+            id="testimonials-previous"
+          >
+            <ArrowLeft size="base" slot="icon" />
+          </Button>
+          <Button
+            size="sm"
+            variant="muted"
+            iconOnly
+            aria-label="Next testimonial"
+            id="testimonials-next"
+          >
+            <ArrowRight size="base" slot="icon" />
+          </Button>
+        </div>
+      </div>
+      <div
+        id="testimonials-slider"
+        class="keen-slider lg:col-span-2 pl-4 lg:pl-0 h-full"
+      >
+        {
+          testimonials.map((testimonial) => (
+            <div class="keen-slider__slide h-full flex flex-col justify-between rounded-2xl h-full overflow-hidden bg-white p-8">
+              <blockquote>
+                <span aria-hidden="true" class="text-9xl italic">
+                  "
+                </span>
+                <Text
+                  tag="p"
+                  variant="displayMD"
+                  class="text-base-900 font-medium tracking-tight italic"
+                >
+                  "{testimonial.quote}"
+                </Text>
+              </blockquote>
+              <div class="flex items-center gap-2  mt-12 lg:mt-24">
+                <Image
+                  src={testimonial.avatar}
+                  alt={`${testimonial.author} avatar`}
+                  class="size-12 rounded-full object-cover "
+                />
+                <div>
+                  <Text
+                    tag="p"
+                    variant="textLG"
+                    class="text-base-900 font-medium"
+                  >
+                    {testimonial.author}
+                  </Text>
+                  <Text tag="p" variant="textSM" class="text-base-600">
+                    {testimonial.role}, {testimonial.location}
+                  </Text>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Wrapper>
+</section>

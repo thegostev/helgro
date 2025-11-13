@@ -5,8 +5,6 @@ import { Image } from "astro:assets";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
-// Components
-import BlogCard from "@/components/blog/BlogCard.astro";
 // Load all posts
 import { getCollection } from "astro:content";
 // Content
@@ -14,113 +12,74 @@ const allPosts = await getCollection("posts");
 // Get the team slug from the URL
 const teamSlug = Astro.url.pathname.split("/").filter(Boolean).pop();
 // Filter posts by this team (based on slug)
-const relatedPosts = allPosts.filter((post) => post.data.team === teamSlug);
 const { frontmatter } = Astro.props;
 ---
-
-<BaseLayout >
+<BaseLayout>
   <section>
-    <Wrapper variant="standard" >
-      <div >
-        <Text
-          tag="a"
-          href="javascript:history.back()"
-          variant="textXS"
-          
-        >
-          &larr; Go back
-        </Text>
-        <Text
-          tag="p"
-          variant="textXL"
-          
-        >
-          <span >
-            {frontmatter.name}
-          </span>
-
-          <span >{frontmatter.role}</span>
-        </Text>
+    <Wrapper variant="wide" class="pt-4 pb-8">
+      <div class="relative rounded-3xl h-[calc(100vh-2rem)] overflow-hidden">
         <Image
+          width={1440}
+          height={1080}
+          loading="eager"
+          decoding="async"
           alt={frontmatter.image.alt}
           src={frontmatter.image.url}
-          width={800}
-          height={800}
-          loading="lazy"
-          decoding="async"
-          
+          class="object-cover size-full absolute inset-0 object-top"
         />
-        <div >
-          {
-            frontmatter.bio.split("\n").map((paragraph) => (
+        <div
+          class="absolute bottom-4  right-4 left-4 ml-auto max-w-md flex flex-col"
+        >
+          <div
+            class="p-8 bg-base-100 rounded-2xl w-fit "
+          >
+            <div>
+              <Text
+                tag="h2"
+                variant="textLG"
+                class="text-base-600 tracking-tight 2xl:text-2xl text-balance font-medium"
+              >
+                {frontmatter.name}
+              </Text>
               <Text
                 tag="p"
                 variant="textSM"
-                
+                class="text-base-600 tracking-tight text-pretty 2xl:text-2xl mt-2"
               >
-                {paragraph}
+                {frontmatter.role}
               </Text>
-            ))
-          }
-        </div>
-        <div>
-          {/* Social Media Links */}
-          <a
-            href={frontmatter.socials.twitter}
-            
-            aria-label="X"
-          >
-            Twitter
-          </a>
-          <a
-            href={frontmatter.socials.linkedin}
-            
-            aria-label="LinkedIn"
-          >
-            Linkedin
-          </a>
-          <a
-            href={frontmatter.socials.email}
-            
-            aria-label="Email"
-          >
-            Email
-          </a>
-          <a
-            href={frontmatter.socials.website}
-            
-            aria-label="Website"
-          >
-            Website
-          </a>
-        </div>
-      </div>
-    </Wrapper>
-  </section>
-  <section>
-    <Wrapper variant="standard" >
-      <div >
-        {
-          relatedPosts.length > 0 && (
-            <div >
-              <Text
-                tag="h2"
-                variant="textBase"
-                
-              >
-                More from
-                <span >{teamSlug.replace(/-/g, " ")}</span>
-              </Text>
-
-              <div >
-                {relatedPosts.map((post) => (
-                  <BlogCard post={post} />
-                ))}
+              <div class="space-y-4 mt-8">
+                {
+                  frontmatter.bio.split("\n").map((paragraph) => (
+                    <Text
+                      tag="p"
+                      variant="textBase"
+                      class="text-base-600 tracking-tight text-pretty 2xl:text-2xl"
+                    >
+                      {paragraph}
+                    </Text>
+                  ))
+                }
               </div>
             </div>
-          )
-        }
+            <div class="flex flex-col gap-1 text-xs text-base-600 mt-auto">
+              <a href={frontmatter.socials.twitter} aria-label="X"> Twitter </a>
+              <a href={frontmatter.socials.linkedin} aria-label="LinkedIn">
+                Linkedin
+              </a>
+              <a href={frontmatter.socials.email} aria-label="Email"> Email </a>
+              <a href={frontmatter.socials.website} aria-label="Website">
+                Website
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
+      <Wrapper
+        variant="prose"
+        class="max-w-xl mx-auto mt-8 text-base-600 space-y-4 space-x-4"
+        ><slot /></Wrapper
+      >
     </Wrapper>
   </section>
 </BaseLayout>

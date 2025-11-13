@@ -5,83 +5,98 @@ import { Image } from "astro:assets";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
-// Sections
-import BlogCard from "@/components/blog/BlogCard.astro";
 const { frontmatter } = Astro.props;
-import { getEntry } from "astro:content";
-const team = await getEntry("team", frontmatter.team);
-// Get all posts and filter by tag
-import { getCollection } from "astro:content";
-const allPosts = await getCollection("posts");
-const relatedPosts = allPosts.filter((post) =>
-  post.data.tags.some((tag) => frontmatter.tags.includes(tag))
-);
+import { getCollection, getEntry } from "astro:content";
+
+let teamEntry;
+if (frontmatter.team) {
+  try {
+    teamEntry = await getEntry("team", frontmatter.team);
+  } catch (error) {
+    teamEntry = undefined;
+  }
+
+  if (!teamEntry) {
+    const teamCollection = await getCollection("team");
+    const normalizedTeam = frontmatter.team.toLowerCase().replace(/\s+/g, "-");
+    teamEntry = teamCollection.find(
+      (member) =>
+        member.slug === normalizedTeam ||
+        member.slug === frontmatter.team ||
+        member.data.name?.toLowerCase() === frontmatter.team.toLowerCase()
+    );
+  }
+}
+
+const authorName =
+  teamEntry?.data.name ?? frontmatter.team ?? "Matterhause Editorial Team";
+const authorHref = teamEntry ? `/team/${teamEntry.slug}` : undefined;
 ---
 
 <BaseLayout>
   <section>
-    <Wrapper variant="standard">
-      <div>
-        {frontmatter.tags.map((tag) => <a href={`/blog/tags/${tag}`}>{tag}</a>)}
-        <Text tag="p" variant="textXL">
-          <span>
-            {frontmatter.category}
-          </span>
-          <span>{frontmatter.title}</span>
-        </Text>
-        <Text tag="p" variant="textXL">
-          {frontmatter.description}
-        </Text>
-        <a href={`/team/${team.slug}`}></a>
-        <Text tag="p" variant="textSM">
-          <span>
-            Written in
-            <span>
-              <time datetime={new Date(frontmatter.pubDate).toISOString()}>
-                {
-                  new Date(frontmatter.pubDate).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "2-digit",
-                  })
-                }
-              </time>
-            </span>
-          </span>
-          <span>
-            by
-            <span>
-              {team.data.name}
-            </span>
-          </span>
-        </Text>
+    <Wrapper variant="wide" class="pt-4 pb-8">
+      <div class="relative rounded-3xl h-[calc(100vh-2rem)] overflow-hidden">
         <Image
-          width={1400}
-          height={1400}
-          src={frontmatter.image.url}
+          width={1440}
+          height={1080}
+          loading="eager"
+          decoding="async"
           alt={frontmatter.image.alt}
+          src={frontmatter.image.url}
+          class="object-cover size-full absolute inset-0 object-center"
         />
-        <Text tag="p" variant="textSM">
-          <em>{frontmatter.description}</em>
-        </Text>
+
+        <div class="absolute bottom-4 left-4 right-4 max-w-sm flex flex-col">
+          <div class="p-8 bg-base-100 rounded-2xl w-fit">
+            <Text tag="p" variant="textXS" class="text-base-500">
+              <span>
+                Written in
+                <time datetime={new Date(frontmatter.pubDate).toISOString()}>
+                  {
+                    new Date(frontmatter.pubDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "2-digit",
+                    })
+                  }
+                </time>
+                by
+                <span>
+                  {
+                    authorHref ? (
+                      <a href={authorHref} class="underline ">
+                        {authorName}
+                      </a>
+                    ) : (
+                      authorName
+                    )
+                  }
+                </span>
+              </span>
+            </Text>
+            <Text
+              tag="h2"
+              variant="textLG"
+              class="text-base-600 tracking-tight 2xl:text-2xl text-balance font-medium mt-12"
+            >
+              {frontmatter.title}
+            </Text>
+            <Text
+              tag="p"
+              variant="textSM"
+              class="text-base-600 tracking-tight text-pretty 2xl:text-2xl mt-2"
+            >
+              {frontmatter.description}
+            </Text>
+          </div>
+        </div>
       </div>
-      <Wrapper variant="prose"><slot /></Wrapper>
+      <Wrapper
+        variant="prose"
+        class="max-w-xl mx-auto mt-8 text-base-600 space-y-4 space-x-4"
+        ><slot /></Wrapper
+      >
     </Wrapper>
   </section>
-  {
-    relatedPosts.length > 0 && (
-      <section>
-        <Wrapper variant="standard">
-          <Text tag="h2" variant="textBase">
-            Related posts
-          </Text>
-          <div>
-            {relatedPosts.slice(0, 3).map((post) => (
-              <BlogCard post={post} />
-            ))}
-          </div>
-        </Wrapper>
-      </section>
-    )
-  }
 </BaseLayout>

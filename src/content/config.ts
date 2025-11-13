@@ -33,15 +33,57 @@ const postsCollection = defineCollection({
       tags: z.array(z.string()),
     }),
 });
-const infopages = defineCollection({
+const legal = defineCollection({
   schema: z.object({
     page: z.string(),
     pubDate: z.date(),
   }),
 });
+const projects = defineCollection({
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      pubDate: z.date().optional(),
+      client: z.string().optional(),
+      location: z.string().optional(),
+      year: z.string().optional(),
+      status: z.enum(["concept", "in-progress", "built"]).optional(),
+      area: z.string().optional(),
+      cover: z
+        .object({
+          url: image(),
+          alt: z.string(),
+        })
+        .optional(),
+      gallery: z
+        .array(
+          z.object({
+            url: image(),
+            alt: z.string().optional(),
+          })
+        )
+        .optional(),
+    }),
+});
+const services = defineCollection({
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string().optional(),
+      image: z
+        .object({
+          url: image(),
+          alt: z.string(),
+        })
+        .optional(),
+    }),
+});
+
 export const collections = {
   team: team,
- 
-  infopages: infopages,
+  legal: legal,
   posts: postsCollection,
+  projects: projects,
+  services: services,
+
 };

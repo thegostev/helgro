@@ -14,14 +14,25 @@ allPosts.sort((a, b) => {
   return dateB - dateA; // Compare timestamps
 });
 ---
+
 <BaseLayout>
+  
   <section>
-    <Wrapper variant="standard" >
-      <Text tag="h1" variant="textBase">
-        Blog
-      </Text>
-      <div
+    <Wrapper variant="standard" class="pt-32 pb-2">
+      <Text
+        tag="h1"
+        variant="displayXL"
+        class="text-base-900 font-medium tracking-tight lg:indent-42 text-pretty"
       >
+        Explore our <span class="text-base-500 font-light italic">insights</span
+        > and <span class="text-base-500 font-light italic">perspectives</span> on
+        interior design, sharing <span class="text-base-500 font-light italic"
+          >stories</span
+        >, <span class="text-base-500 font-light italic">trends</span>, and <span
+          class="text-base-500 font-light italic">inspiration</span
+        > from our creative journey.
+      </Text>
+      <div class="grid grid-cols-1 lg:grid-cols-3 mt-12 gap-x-8 gap-y-12">
         {allPosts.map((post) => <BlogCard post={post} />)}
       </div>
     </Wrapper>

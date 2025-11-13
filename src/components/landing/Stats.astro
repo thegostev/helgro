@@ -1,0 +1,117 @@
+---
+// Assets
+import { Image } from "astro:assets";
+import Team from "@/images/assets/team.png";
+// Fundations
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+
+const stats = [
+  {
+    number: "500+",
+    label:
+      "Over 500 interior design projects have been successfully completed, each one transforming spaces into beautiful, functional environments that reflect our clients' unique visions and lifestyles.",
+  },
+  {
+    number: "15+",
+    label:
+      "With more than 15 years of experience in the interior design industry, we have honed our skills in creating timeless and modern spaces that stand the test of time.",
+  },
+  {
+    number: "200+",
+    label:
+      "We have served over 200 happy clients, building lasting relationships through our commitment to quality, creativity, and exceptional design solutions tailored to their needs.",
+  },
+  {
+    number: "50+",
+    label:
+      "Our work has been recognized with over 50 awards, celebrating our innovative approaches and outstanding contributions to the field of interior design excellence.",
+  },
+  {
+    number: "25+",
+    label:
+      "Our dedicated team of over 25 talented designers, architects, and specialists brings diverse expertise and passion to every project, ensuring unparalleled craftsmanship and attention to detail.",
+  },
+  {
+    number: "1M+",
+    label:
+      "More than 1 million square feet of spaces have been designed and transformed by our studio, from intimate homes to expansive commercial environments, all with a focus on sustainability and beauty.",
+  },
+  {
+    number: "98%",
+    label:
+      "Achieving a 98% client satisfaction rate through our collaborative process, transparent communication, and commitment to exceeding expectations on every interior design endeavor.",
+  },
+];
+---
+
+<section>
+  <Wrapper variant="standard" class="py-12 lg:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div>
+        <div class="lg:sticky lg:top-24 max-w-sm">
+          <Image
+            src={Team}
+            alt="Team"
+            width={800}
+            height={1080}
+            loading="eager"
+            decoding="async"
+            class="object-cover aspect-square rounded-xl"
+          />
+          <Text
+            tag="p"
+            variant="textSM"
+            class="text-base-600 mt-4 text-balance font-medium"
+          >
+            Purposeful in vision. Meticulous in craft. Bold in innovation.
+          </Text>
+        </div>
+      </div>
+      <div class="lg:col-span-2">
+        <Text
+          tag="p"
+          variant="displaySM"
+          class="text-base-900 font-medium tracking-tight"
+        >
+          At our core is a belief in creative intention. Every space, every
+          material, every design choice — it all matters. Because in a world
+          saturated with options, we believe thoughtful design wins. When you
+          work with Ashbury, you’re not just hiring a designer — you’re gaining
+          a partner who’s invested in your vision, your lifestyle, and your
+          impact.
+        </Text>
+        <Text tag="p" variant="textSM" class="text-base-600 mt-8">
+          We’re not just interior designers — we’re thinkers, creators, and
+          collaborators. Our team blends global trends with personal
+          sensibility, crafting spaces that feel authentic yet inspiring.
+          Whether it’s a home transformation, a commercial space, or a bespoke
+          environment, our goal is always the same: to make your space feel
+          truly yours.
+        </Text>
+        <div class="divide-y divide-base-200 border-y border-base-200 mt-8">
+          {
+            stats.map((stat) => (
+              <div class="grid grid-cols-1 lg:grid-cols-3 items-start gap-4 pb-8 pt-8 lg:sticky lg:top-0 bg-base-100">
+                <Text
+                  tag="p"
+                  variant="display2XL"
+                  class="text-base-900 font-semibold  italic"
+                >
+                  {stat.number}
+                </Text>
+                <Text
+                  tag="p"
+                  variant="textBase"
+                  class="text-base-600 lg:col-span-2 text-balance"
+                >
+                  {stat.label}
+                </Text>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </Wrapper>
+</section>

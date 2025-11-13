@@ -1,0 +1,107 @@
+---
+// Fundations
+import Text from "@/components/fundations/elements/Text.astro";
+import Kicker from "@/components/fundations/elements/Kicker.astro";
+import Button from "@/components/fundations/elements/Button.astro";
+import RollingLink from "@/components/fundations/elements/RollingLink.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Components
+import ProjectCard from "@/components/projects/ProjectCard.astro";
+// Icons
+import ArrowLeft from "@/components/fundations/icons/ArrowLeft.astro";
+import ArrowRight from "@/components/fundations/icons/ArrowRight.astro";
+// Content
+import { getCollection } from "astro:content";
+const allProjects = await getCollection("projects");
+// Sort by publication date (newest first)
+const sortedProjects = allProjects.sort(
+  (a, b) =>
+    new Date(b.data.pubDate || b.data.year || 0).getTime() -
+    new Date(a.data.pubDate || a.data.year || 0).getTime()
+);
+---
+<section class="overflow-hidden">
+  <Wrapper variant="standard" class="pb-12 pt-24 lg:pt-12">
+    <div>
+      <Kicker copy="Latest works" />
+      <Text
+        tag="p"
+        variant="displayLG"
+        class="text-base-900 font-medium tracking-tight lg:text-balance mt-12"
+      >
+        Explore our latest interior design projects and transformative spaces.
+      </Text>
+      <RollingLink
+        href="/projects"
+        variant="light"
+        hoverText="Explore now"
+        initialText="See all projects"
+      />
+    </div>
+  </Wrapper>
+  <Wrapper variant="paddingless" class="pb-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 items-start gap-y-4 xl:ml-8">
+      <div
+        class="order-last p-4 xl:p-8 bg-white rounded-xl justify-between flex flex-col h-full lg:order-first lg:col-span-3 max-w-screen mr-4"
+      >
+        <div>
+          <Text
+            tag="p"
+            variant="textXS"
+            class="text-base-600"
+            id="project-year"
+          >
+            {sortedProjects[0]?.data.year}
+          </Text>
+          <Text
+            tag="h3"
+            variant="textXLG"
+            class="text-base-900 text-balance mt-8 font-medium"
+            id="project-title"
+          >
+            {sortedProjects[0]?.data.title}
+          </Text>
+          <Text
+            tag="p"
+            variant="textSM"
+            class="text-base-600 mt-1"
+            id="project-location"
+          >
+            {sortedProjects[0]?.data.location}
+          </Text>
+        </div>
+        <div class="flex gap-2 mt-8">
+          <Button
+            size="xs"
+            variant="muted"
+            iconOnly
+            aria-label="Previous slide"
+            id="keen-slider-previous"
+            ><ArrowLeft size="base" slot="icon" />
+          </Button>
+          <Button
+            size="xs"
+            variant="muted"
+            iconOnly
+            aria-label="Next slide"
+            id="keen-slider-next"
+          >
+            <ArrowRight size="base" slot="icon" />
+          </Button>
+        </div>
+      </div>
+      <div class="lg:col-span-9 pl-4 lg:pl-0">
+        <div id="keen-slider" class="keen-slider rounded-l-xl overflow-hidden">
+          {
+            sortedProjects
+              .slice(0, 4)
+              .map((project) => <ProjectCard post={project} />)
+          }
+        </div>
+      </div>
+    </div>
+  </Wrapper>
+</section>
+<script define:vars={{ sortedProjects }}>
+  window.sortedProjects = sortedProjects;
+</script>

@@ -1,0 +1,77 @@
+---
+// Fundations
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Kicker from "@/components/fundations/elements/Kicker.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+---
+
+<BaseLayout>
+  <section>
+    <Wrapper variant="standard" class="pt-32 pb-2">
+      <Text
+        tag="h1"
+        variant="displayXL"
+        class="text-base-900 font-medium tracking-tight lg:indent-42 text-pretty"
+      >
+        We are a <span class="text-base-500 font-light italic"
+          >collaborative</span
+        > team of <span class="text-base-500 font-light italic"
+          >interior designers</span
+        >, architects, and strategists dedicated to creating interiors that <span
+          class="text-base-500 font-light italic">inspire</span
+        >, <span class="text-base-500 font-light italic">function</span>, and
+        <span class="text-base-500 font-light italic">endure</span>.
+      </Text>
+      <div
+        class="columns-1 md:columns-2 lg:columns-4 mt-8 text-base-600 space-y-4 space-x-4"
+      >
+        <Text tag="p" variant="textSM">
+          Founded in 2010, Ashbury Interior Design has been at the forefront of
+          innovative interior solutions. Our multidisciplinary team combines
+          traditional design principles with cutting-edge technology to deliver
+          exceptional results.
+        </Text>
+        <Text tag="p" variant="textSM" class="mt-4">
+          We believe that great interior design goes beyond aesthetics—it's
+          about creating spaces that enhance human experience, promote
+          well-being, and contribute positively to communities.
+        </Text>
+        <Text tag="p" variant="textSM">
+          With over 50 completed projects and awards from prestigious design
+          organizations, we continue to push the boundaries of what's possible
+          in interior architecture and design.
+        </Text>
+        <Text tag="p" variant="textSM">
+          Our process is rooted in meaningful collaboration with clients,
+          consultants, and community stakeholders. We listen thoughtfully,
+          iterate rapidly, and test ideas through physical and digital
+          prototyping to ensure every design decision serves a purpose.
+        </Text>
+        <Text tag="p" variant="textSM" class="mt-4">
+          From space planning to material selection, we approach each project
+          with a holistic perspective, integrating sustainability strategies,
+          smart technology, and artisan craftsmanship into every phase of
+          development.
+        </Text>
+      </div>
+    </Wrapper>
+    <Wrapper variant="wide" class="pb-12">
+      <div
+        class="relative overflow-hidden mt-12 rounded-3xl h-[calc(100vh-2rem)] items-end justify-end flex lg:items-start lg:justify-start"
+      >
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          class="object-cover size-full absolute inset-0 object-center"
+        >
+          <source src="/studio.mp4" type="video/mp4" />
+
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>

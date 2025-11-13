@@ -1,63 +1,101 @@
 ---
+import Button from "@/components/fundations/elements/Button.astro";
+import SearchIcon from "@/components/fundations/icons/Search.astro";
 import { getCollection } from "astro:content";
-const posts = await Promise.all(
-  (await getCollection("posts")).map(async (post) => ({
-    title: post.data.title,
-    pubDate: post.data.pubDate,
-    description: post.data.description,
-    slug: post.slug,
-  }))
-);
+const [postsCol, projectsCol, servicesCol, teamCol, legalCol] =
+  await Promise.all([
+    getCollection("posts"),
+    getCollection("projects"),
+    getCollection("services"),
+    getCollection("team"),
+    getCollection("legal"),
+  ]);
+
+const items = [
+  ...postsCol.map(({ data, slug }) => ({
+    title: data.title,
+    description: data.description,
+    pubDate: data.pubDate,
+    slug,
+    collection: "posts",
+    url: `/blog/posts/${slug}`,
+  })),
+  ...projectsCol.map(({ data, slug }) => ({
+    title: data.title,
+    description:
+      [data.client, data.location, data.year].filter(Boolean).join(" • ") || "",
+    pubDate: data.pubDate ?? null,
+    slug,
+    collection: "projects",
+    url: `/projects/${slug}`,
+  })),
+  ...servicesCol.map(({ data, slug }) => ({
+    title: data.title,
+    description: data.description ?? "",
+    pubDate: null,
+    slug,
+    collection: "services",
+    url: `/services/${slug}`,
+  })),
+  ...teamCol.map(({ data, slug }) => ({
+    title: data.name,
+    description: data.role ?? (data.bio ? String(data.bio).slice(0, 140) : ""),
+    pubDate: null,
+    slug,
+    collection: "team",
+    url: `/team/${slug}`,
+  })),
+  ...legalCol.map(({ data, slug }) => ({
+    title: data.page,
+    description: "",
+    pubDate: data.pubDate ?? null,
+    slug,
+    collection: "legal",
+    url: `/legal/${slug}`,
+  })),
+];
 ---
 
 <div class="relative">
-  <button
+  <Button
+    iconOnly
+    size="base"
+    variant="muted"
     type="button"
     id="searchButton"
-    aria-label="Search posts"
-    class="flex items-center h-auto text-base-900"
+    aria-label="Search site"
+    class="fixed right-6 bottom-6 z-50"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="size-4"
-      fill="currentColor"
-      viewBox="0 0 256 256"
-    >
-      <path
-        d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
-      ></path>
-    </svg>
-  </button>
+    <SearchIcon slot="icon" size="sm" />
+  </Button>
 
   <div
     id="searchModal"
-    class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/10 backdrop-blur-sm"
+    class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/10 backdrop-blur-sm opacity-0 transition-opacity duration-200 ease-out"
     role="dialog"
     aria-modal="true"
   >
     <div class="min-h-screen px-4 text-center">
       <div
-        class="relative inline-block w-full max-w-xl mt-12 mb-8 text-left align-middle lg:mt-48 transition-all transform"
+        class="relative inline-block w-full max-w-xl mx-auto mb-8 text-left align-middle lg:mt-48 transition-all transform"
       >
-        <div class="hidden">
-          <button
-            type="button"
-            id="closeSearch"
-            class="cursor-pointer text-base-400 hover:text-base-600"
-            aria-label="Close search"
-          >
-            ×
-          </button>
-        </div>
+        <button
+          type="button"
+          id="closeSearch"
+          class="absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full text-base-500 hover:text-base-700 hover:bg-white/70 backdrop-blur focus:outline-none"
+          aria-label="Close search"
+        >
+          ×
+        </button>
         <input
           type="text"
           id="searchInput"
-          placeholder="Search posts..."
-          class="block w-full h-10 px-4 py-2 text-xs leading-tight align-middle bg-white border border-transparent rounded-full transition duration-300 ease-in-out focus:z-10 text-base-500 ring-1 ring-base-200 placeholder-base-400 focus:border-accent-50 focus:ring-accent-500 focus:ring-2 focus:outline-none shadow-sm"
+          placeholder="Search..."
+          class="block w-full h-12 px-4 py-2 text-xs leading-tight align-middle bg-white border border-transparent transition duration-300 ease-in-out focus:z-10 text-base-500 ring-1 ring-base-200 placeholder-base-400 focus:border-base-50 focus:ring-base-200 focus:ring-2 focus:outline-none shadow-sm"
         />
         <div
           id="searchResults"
-          class="w-full mt-2 overflow-hidden overflow-y-auto rounded-lg max-h-100 divide-y divide-base-200 scrollbar-hide"
+          class="w-full mt-2 overflow-hidden overflow-y-auto max-h-100 divide-y divide-base-200 scrollbar-hide"
         >
         </div>
       </div>
@@ -65,7 +103,7 @@ const posts = await Promise.all(
   </div>
 </div>
 
-<script is:inline define:vars={{ posts }}>
+<script is:inline define:vars={{ items }}>
   window.addEventListener("load", () => {
     const searchButton = document.getElementById("searchButton");
     const searchModal = document.getElementById("searchModal");
@@ -73,11 +111,30 @@ const posts = await Promise.all(
     const searchResults = document.getElementById("searchResults");
     const closeSearch = document.getElementById("closeSearch");
 
-    const fuse = new Fuse(posts, {
-      keys: ["title", "description", "pubDate"],
-      threshold: 0.3,
-      includeMatches: true,
-    });
+    // Try to use Fuse.js if available; otherwise fall back to basic filtering.
+    let fuse;
+    if (typeof Fuse !== "undefined") {
+      fuse = new Fuse(items, {
+        keys: ["title", "description", "collection", "pubDate"],
+        threshold: 0.3,
+        includeMatches: true,
+      });
+    }
+
+    function basicSearch(query) {
+      const q = query.toLowerCase();
+      return items
+        .filter((it) => {
+          const fields = [
+            it.title,
+            it.description,
+            it.collection,
+            it.pubDate ? new Date(it.pubDate).toISOString() : "",
+          ].filter(Boolean);
+          return fields.some((f) => String(f).toLowerCase().includes(q));
+        })
+        .map((item) => ({ item }));
+    }
 
     searchResults.classList.add("hidden");
 
@@ -85,6 +142,11 @@ const posts = await Promise.all(
       e.preventDefault();
       e.stopPropagation();
       searchModal.classList.remove("hidden");
+      // Animate overlay fade-in
+      requestAnimationFrame(() => {
+        searchModal.classList.remove("opacity-0");
+        searchModal.classList.add("opacity-100");
+      });
       document.body.style.overflow = "hidden";
       setTimeout(() => searchInput.focus(), 100);
     }
@@ -94,7 +156,15 @@ const posts = await Promise.all(
         e.preventDefault();
         e.stopPropagation();
       }
-      searchModal.classList.add("hidden");
+      // Animate overlay fade-out then hide
+      searchModal.classList.remove("opacity-100");
+      searchModal.classList.add("opacity-0");
+      const onEnd = (evt) => {
+        if (evt.target !== searchModal) return;
+        searchModal.classList.add("hidden");
+        searchModal.removeEventListener("transitionend", onEnd);
+      };
+      searchModal.addEventListener("transitionend", onEnd);
       document.body.style.overflow = "";
       searchInput.value = "";
       searchResults.innerHTML = "";
@@ -121,26 +191,28 @@ const posts = await Promise.all(
       }
 
       searchResults.innerHTML = results
-        .map(
-          (result) => `
-          <div class="relative block p-4 duration-300 hover:bg-white/80 backdrop-blur bg-white/90">
-            <a href="/blog/posts/${result.item.slug}" class="absolute inset-0 z-10"></a>
-            <p class="block text-xs text-sm text-base-600">
-              ${new Date(result.item.pubDate).toLocaleDateString("en-US", {
+        .map((result) => {
+          const item = result.item;
+          const meta = item.pubDate
+            ? new Date(item.pubDate).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "2-digit",
-              })}
-            </p>
+              })
+            : item.collection.charAt(0).toUpperCase() +
+              item.collection.slice(1);
+          return `
+          <div class="relative block p-4 duration-300 hover:bg-white/80 backdrop-blur bg-white/90">
+            <a href="${item.url}" class="absolute inset-0 z-10"></a>
+            <p class="block text-xs text-sm text-base-600">${meta}</p>
             <h3 class="block mt-2 text-sm font-medium text-base-900 ">
-              ${result.item.title}
+              ${item.title}
             </h3>
             <p class="block text-xs text-base-600">
-              ${result.item.description}
+              ${item.description ?? ""}
             </p>
-          </div>
-        `
-        )
+          </div>`;
+        })
         .join("");
 
       searchResults.classList.remove("hidden");
@@ -151,10 +223,17 @@ const posts = await Promise.all(
     closeSearch.addEventListener("click", closeSearchModal);
     closeSearch.addEventListener("touchend", closeSearchModal);
 
+    // Debounced search input
+    let debounce;
     searchInput.addEventListener("input", (e) => {
+      clearTimeout(debounce);
       const value = e.target.value.trim();
-      const results = value ? fuse.search(value) : [];
-      renderResults(results);
+      debounce = setTimeout(() => {
+        const results = value
+          ? (fuse ? fuse.search(value) : basicSearch(value)).slice(0, 20)
+          : [];
+        renderResults(results);
+      }, 120);
     });
 
     // Close on escape key
@@ -169,6 +248,23 @@ const posts = await Promise.all(
       const modalContent = e.target.closest(".inline-block");
       if (!modalContent) {
         closeSearchModal(e);
+      }
+    });
+
+    // Keyboard shortcut: "/" or Cmd/Ctrl+K toggles search
+    document.addEventListener("keydown", (e) => {
+      const target = e.target;
+      const isTyping =
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable);
+      const isCmdK = e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey);
+      const isSlash = e.key === "/";
+      const isOpen = !searchModal.classList.contains("hidden");
+      if (!isTyping && !isOpen && (isCmdK || isSlash)) {
+        e.preventDefault();
+        openSearch(e);
       }
     });
   });

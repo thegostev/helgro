@@ -24,22 +24,25 @@ export async function getStaticPaths() {
 }
 const { tag } = Astro.params;
 const { posts } = Astro.props;
+
+const displayTag = tag
+  .split(/[-_]/)
+  .filter(Boolean)
+  .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+  .join(" ");
 ---
 
-<BaseLayout pageTitle={tag}>
+<BaseLayout>
   <section>
-    <Wrapper variant="standard" class="py-24 lg:pt-48">
+    <Wrapper variant="standard" class="pt-32 pb-2">
       <Text
         tag="h1"
-        variant="textBase"
-        class="font-medium capitalize text-base-900"
+        variant="displayXL"
+        class="text-base-900 font-medium tracking-tight"
       >
-        {tag}</Text
-      >
-
-      <div
-        class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-y-24 gap-4"
-      >
+        {displayTag || tag}
+      </Text>
+      <div class="grid grid-cols-1 lg:grid-cols-3 mt-12 gap-x-8 gap-y-12">
         {
           posts.map((post, index) => (
             <BlogEntry post={post} index={index + 1} />

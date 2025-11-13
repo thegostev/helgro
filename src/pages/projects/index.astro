@@ -1,0 +1,75 @@
+---
+// Fundations
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Kicker from "@/components/fundations/elements/Kicker.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Components
+import ProjectCardBig from "@/components/projects/ProjectCardBig.astro";
+// Content
+import { getCollection } from "astro:content";
+const allProjects = await getCollection("projects");
+// Sort by publication date (newest first)
+const sortedProjects = allProjects.sort(
+  (a, b) =>
+    new Date(b.data.pubDate || b.data.year || 0).getTime() -
+    new Date(a.data.pubDate || a.data.year || 0).getTime()
+);
+---
+
+<BaseLayout>
+  <section>
+    <Wrapper variant="standard" class="pt-32 pb-8">
+      <Text
+        tag="h1"
+        variant="displayXL"
+        class="text-base-900 font-medium tracking-tight lg:indent-42 text-pretty"
+      >
+        Explore our <span class="text-base-500 font-light italic"
+          >portfolio</span
+        > of exceptional <span class="text-base-500 font-light italic"
+          >interior design</span
+        > projects that transform spaces into <span
+          class="text-base-500 font-light italic">extraordinary</span
+        > environments.
+      </Text>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12 lg:mt-24">
+        <div class="hidden lg:block">
+          <div class="lg:sticky lg:top-24 max-w-sm">
+            <Kicker copy="Index" />
+            <nav>
+              <ul
+                class="divide-y border-y divide-base-200 border-base-200 mt-12"
+              >
+                {
+                  sortedProjects.map((project) => (
+                    <li>
+                      <a
+                        href={`#project-${project.slug}`}
+                        class="font-medium hover:translate-x-4 duration-500 ease-in-out transition-all py-2 text-lg flex"
+                      >
+                        {project.data.title}
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div
+          class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 lg:col-span-2 gap-y-24"
+        >
+          {
+            sortedProjects.map((project) => (
+              <div id={`project-${project.slug}`}>
+                <ProjectCardBig post={project} />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>

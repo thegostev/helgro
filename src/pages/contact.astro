@@ -1,0 +1,121 @@
+---
+import Logo from "@/components/assets/Logo.astro";
+// Fundations
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Content
+import { getCollection } from "astro:content";
+import Footer from "@/components/global/Footer.astro";
+
+const socials = [
+  {
+    name: "Instagram",
+    handle: "@ashbury",
+    url: "#_",
+  },
+  {
+    name: "LinkedIn",
+    handle: "ashbury Interior Design",
+    url: "_#",
+  },
+  {
+    name: "Twitter",
+    handle: "@ashbury",
+    url: "_#",
+  },
+];
+---
+
+<BaseLayout hideFooter={Footer}>
+  <section class="overflow-hidden">
+    <Wrapper variant="wide" class="py-4">
+      <div class="relative rounded-3xl h-[calc(100vh-2rem)] overflow-hidden">
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          class="object-cover size-full absolute inset-0 object-center"
+        >
+          <source src="/contact.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        <div class="relative lg:max-w-xl lg:ml-auto flex flex-col h-full">
+          <div
+            class="p-8 bg-base-100 m-4 rounded-2xl h-full justify-between flex flex-col"
+          >
+            <div>
+              <Logo
+                class="text-base tracking-tighter uppercase focus:outline-none text-base-900 font-semibold"
+              />
+              <Text
+                tag="h2"
+                variant="textLG"
+                class="text-base-600 tracking-tight 2xl:text-2xl text-balance mt-12 font-medium"
+              >
+                Get in Touch
+              </Text>
+              <div class="mt-8 space-y-8">
+                <div>
+                  <Text
+                    tag="p"
+                    variant="textSM"
+                    class="text-base-600 font-medium"
+                  >
+                    Email
+                  </Text>
+                  <a
+                    href="#_"
+                    class="text-base-500 hover:text-base-900 block text-xs"
+                  >
+                    ashbury@exmaple.com
+                  </a>
+                </div>
+                <div>
+                  <Text
+                    tag="p"
+                    variant="textSM"
+                    class="text-base-600 font-medium"
+                  >
+                    Phone
+                  </Text>
+                  <a
+                    href="#_"
+                    class="text-base-500 hover:text-base-900 block text-xs"
+                  >
+                    +1 (555) 123-4567
+                  </a>
+                </div>
+                <div>
+                  <Text
+                    tag="p"
+                    variant="textSM"
+                    class="text-base-600 font-medium"
+                  >
+                    Social Media
+                  </Text>
+                  <div class="space-y-2">
+                    {
+                      socials.map((social) => (
+                        <a
+                          href={social.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="text-base-500 hover:text-base-900 block text-xs"
+                        >
+                          {social.name}: {social.handle}
+                        </a>
+                      ))
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>

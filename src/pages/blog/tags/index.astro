@@ -7,27 +7,39 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 import { getCollection } from "astro:content";
 const allPosts = await getCollection("posts");
 const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
-const pageTitle = "Tag Index";
+
+const formatTag = (value: string) =>
+  value
+    .split(/[-_]/)
+    .filter(Boolean)
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join(" ");
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout>
   <section>
-    <Wrapper variant="standard" class="py-24 lg:pt-48">
-      <Text tag="h1" variant="textBase" class="font-medium text-base-900">
-        Tag directory</Text
+    <Wrapper variant="standard" class="pt-32 pb-12">
+      <Text
+        tag="h1"
+        variant="displayXL"
+        class="text-base-900 font-medium tracking-tight text-pretty"
       >
-
-      <ol role="list" class="flex flex-col mt-8 gap-1">
+        Tag directory
+      </Text>
+      <ol
+        role="list"
+        class="mt-12 lg:mt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+      >
         {
-          tags.map((tag, index) => (
-            <li>
+          tags.map((tag) => (
+            <li class="bg-white relative p-8 rounded-2xl aspect-square w-full flex flex-col items-center justify-center">
+              <a href={`/blog/tags/${tag}`} class="absolute inset-0 z-10" />
               <Text
                 tag="a"
-                variant="textSM"
-                class="capitalize  text-base-500 hover:text-base-900 border-black/20 duration-300"
-                href={`/blog/tags/${tag}`}
+                variant="textBase"
+                class="capitalize flex tet-base-900 hover:text-base-600 font-medium"
               >
-                {tag}
+                {formatTag(tag) || tag}
               </Text>
             </li>
           ))

@@ -1,0 +1,57 @@
+---
+// Fundations
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Kicker from "@/components/fundations/elements/Kicker.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Components
+import ServicesCard from "@/components/services/ServiceCard.astro";
+// Content
+import { getCollection } from "astro:content";
+const allServices = await getCollection("services");
+---
+
+<BaseLayout>
+  <section>
+    <section>
+      <Wrapper variant="standard" class="pt-32 pb-12">
+        <Text
+          tag="h1"
+          variant="displayXL"
+          class="text-base-900 font-medium tracking-tight lg:indent-42 text-pretty"
+        >
+          Comprehensive <span class="text-base-500 font-light italic"
+            >architectural</span
+          > solutions tailored to bring your <span
+            class="text-base-500 font-light italic">vision</span
+          > to life, from <span class="text-base-500 font-light italic"
+            >concept</span
+          > to <span class="text-base-500 font-light italic">completion</span>.
+        </Text>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12 lg:mt-24">
+          <div>
+            <div
+              class="p-8 bg-white rounded-xl lg:sticky lg:top-24 max-w-sm flex flex-col"
+            >
+              <Kicker copy="The Process" />
+              <Text
+                tag="h3"
+                variant="textXLG"
+                class="text-base-900 text-balance mt-12 font-medium"
+              >
+                A proven methodology that transforms visions into beautiful
+                interiors through collaboration, creativity, and meticulous
+                attention to detail.
+              </Text>
+            </div>
+          </div>
+          <div
+            class="lg:col-span-2 divide-y divide-base-200 border-y border-base-200"
+          >
+            {allServices.map((service) => <ServicesCard post={service} />)}
+          </div>
+        </div>
+      </Wrapper>
+    </section>
+  </section>
+</BaseLayout>

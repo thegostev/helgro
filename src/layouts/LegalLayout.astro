@@ -1,0 +1,42 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+const { frontmatter } = Astro.props;
+// Fundations
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+---
+
+<BaseLayout>
+  <section>
+    <Wrapper variant="standard" class="pt-32 pb-2">
+      <Wrapper variant="narrow">
+        <Text tag="h1" variant="textLG" class="text-base-900 text-balance">
+          {frontmatter.page}
+        </Text>
+        <Text tag="p" variant="bodyLG" class="text-base-600 text-balance mt-2">
+          Last updated on <span>
+            <time
+              datetime={new Date(frontmatter.pubDate).toLocaleDateString(
+                "en-US",
+                {
+                  year: "numeric",
+                  month: "long",
+                }
+              )}
+            >
+              {
+                new Date(frontmatter.pubDate).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                })
+              }</time
+            ></span
+          >
+        </Text>
+        <Wrapper variant="prose" class="mt-12 lg:mt-24">
+          <slot />
+        </Wrapper>
+      </Wrapper>
+    </Wrapper>
+  </section>
+</BaseLayout>

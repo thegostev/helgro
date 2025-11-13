@@ -1,19 +1,61 @@
 ---
+// Assets
+import Logo from "@/components/assets/Logo.astro";
 // Fundations
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Text from "@/components/fundations/elements/Text.astro";
-import Button from "@/components/fundations/elements/Button.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Content
+import { getCollection } from "astro:content";
+import Footer from "@/components/global/Footer.astro";
 ---
-<BaseLayout hideNavigation={true} hideFooter={true}>
-  <section>
-    <Wrapper variant="standard">
-      <Text tag="h1" variant="textLG">
-        404
-      </Text>
-      <Button isLink={true} href="/" size="xs" variant="muted">
-        Go back gome
-      </Button>
+<BaseLayout hideFooter={Footer}>
+  <section class="overflow-hidden">
+    <Wrapper variant="wide" class="py-4">
+      <div class="relative rounded-3xl h-[calc(100vh-2rem)] overflow-hidden">
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          class="object-cover size-full absolute inset-0 object-center"
+        >
+          <source src="/404.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="relative lg:max-w-xl lg:ml-auto flex flex-col h-full">
+          <div
+            class="p-8 bg-base-100 m-4 rounded-2xl h-full justify-between flex flex-col"
+          >
+            <div>
+              <Logo
+                class="text-base tracking-tighter uppercase focus:outline-none transition-colors text-base-900 font-semibold"
+              />
+              <Text
+                tag="p"
+                variant="textLG"
+                class="text-base-600 tracking-tight 2xl:text-2xl text-balance mt-12"
+              >
+                Oops! This page seems to have wandered off into the
+                architectural void.
+              </Text>
+              <Text
+                tag="p"
+                variant="textSM"
+                class="text-base-600 tracking-tight 2xl:text-xl mt-4 text-balance"
+              >
+                Don't worry, even the best designs sometimes take unexpected
+                turns. Let's get you back to solid ground.
+              </Text>
+            </div>
+            <div>
+              <Text tag="p" variant="textXS" class="text-base-500 mt-1">
+                © {new Date().getFullYear()} Ashbury Architecture. All rights reserved.
+              </Text>
+            </div>
+          </div>
+        </div>
+      </div>
     </Wrapper>
   </section>
 </BaseLayout>

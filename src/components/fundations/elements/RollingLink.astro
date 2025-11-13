@@ -1,0 +1,35 @@
+---
+// Props
+const {
+  variant = "dark",
+  href = "/projects",
+  initialText = "Rolling Button",
+  hoverText = "Rolling Button",
+  class: className,
+} = Astro.props;
+
+// Variant classes
+const variantClasses = {
+  dark: "text-white hover:text-base-100",
+  light: "text-base-950 hover:text-base-500",
+};
+---
+
+<a
+  href={href}
+  class:list={[
+    `group relative flex h-8  overflow-hidden mt-8 font-medium ${variantClasses[variant] || variantClasses.dark}`,
+    className,
+  ]}
+>
+  <span
+    class="translate-y-0 transition group-hover:-translate-y-[150%] duration-500"
+  >
+    {initialText}
+  </span>
+  <span
+    class="absolute translate-y-[150%] transition group-hover:translate-y-0 duration-500"
+  >
+    {hoverText}
+  </span>
+</a>

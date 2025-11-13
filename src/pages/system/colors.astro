@@ -42,24 +42,26 @@ const colors = [
 
 <BaseLayout>
   <section>
-    <Wrapper variant="standard" class="py-2">
-      <Text tag="h2" variant="textBase" class="font-medium text-base-900">
+    <Wrapper variant="standard" class="py-32">
+      <Text tag="h1" variant="displaySM" class="text-base-900 text-balance">
         Colors
       </Text>
-      <div class="flex flex-col mt-2 gap-12">
+      <div class="space-y-12 mt-12">
         {
           colors.map((color) => (
             <div class="flex flex-col gap-2">
-              <h3 class="text-xs font-semibold uppercase dark:text-white text-base-900">
+              <Text
+                tag="p"
+                variant="bodyLG"
+                class="text-base-600 text-balance mt-2"
+              >
                 {color.name}
-              </h3>
-              <div class="mt-2 grid grid-cols-3 lg:grid-cols-11 gap-1 gap-y-8">
+              </Text>
+              <div class="mt-2 grid grid-cols-2 lg:grid-cols-11 gap-2 gap-y-8">
                 {color.shades.map((shade) => (
-                  <div class="flex flex-col gap-2">
-                    <div
-                      class={`size-full aspect-square rounded-md ${shade.class}`}
-                    />
-                    <span class="text-xs text-base-600">{shade.name}</span>
+                  <div>
+                    <div class={`w-full aspect-square  ${shade.class}`} />
+                    <span class="text-xs text-base-600 mt-1">{shade.name}</span>
                   </div>
                 ))}
               </div>

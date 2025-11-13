@@ -12,13 +12,16 @@ const pageSections = [
         links: [
           { text: "Home", href: "/" },
           { text: "404", href: "/404" },
+          { text: "Studio", href: "/studio" },
+          { text: "Process", href: "/process" },
+          { text: "Contact", href: "/contact" },
         ],
       },
       {
         category: "System",
         links: [
           { text: "Colors", href: "/system/colors" },
-          { text: "Links", href: "/system/link" },
+          { text: "Links", href: "/system/links" },
           { text: "Buttons", href: "/system/buttons" },
           { text: "Typography", href: "/system/typography" },
         ],
@@ -48,22 +51,46 @@ const pageSections = [
           { text: "Home ", href: "/blog/" },
           { text: "Post", href: "/blog/posts/1" },
           { text: "Tag Index", href: "/blog/tags" },
-          { text: "Tag Category", href: "/blog/tags/photography" },
+          { text: "Tag Category", href: "/blog/tags/design" },
           { text: "RSS", href: "/rss.xml" },
         ],
       },
       {
-        category: "Team",
+        category: "Projects",
         links: [
-          { text: "Home", href: "/team/" },
-          { text: "Details", href: "/team/jordan-wells" },
+          { text: "Home", href: "/projects/" },
+          {
+            text: "Details",
+            href: "/projects/1",
+          },
         ],
       },
       {
-        category: "Utility Pages",
+        category: "Services",
         links: [
-          { text: "Terms Of Use", href: "/infopages/terms" },
-          { text: "Privacy Policy", href: "/infopages/privacy" },
+          { text: "Home", href: "/services/" },
+          {
+            text: "Details",
+            href: "/services/1",
+          },
+        ],
+      },
+
+      {
+        category: "Team",
+        links: [
+          { text: "Home", href: "/team/" },
+          { text: "Details", href: "/team/david-lee" },
+        ],
+      },
+      {
+        category: "Legal",
+        links: [
+          { text: "Terms Of Use", href: "/legal/terms" },
+          { text: "Cookie Policy", href: "/legal/cookies" },
+          { text: "Privacy Policy", href: "/legal/privacy" },
+          { text: "Copyright Notice", href: "/legal/copyright" },
+          { text: "Professional Disclaimer", href: "/legal/disclaimer" },
         ],
       },
     ],
@@ -73,28 +100,24 @@ const pageSections = [
 
 <BaseLayout>
   <section>
-    <Wrapper variant="standard" class="py-2">
-      <Text tag="h2" variant="textBase" class="font-medium text-base-900">
+    <Wrapper variant="standard" class="py-32">
+      <Text tag="h1" variant="displaySM" class="text-base-900 text-balance">
         Overview
       </Text>
       <div class="flex flex-col mt-12 gap-12">
         {
           pageSections.map((section) => (
             <div>
-              <Text
-                tag="h3"
-                variant="textBase"
-                class="font-medium text-base-900"
-              >
+              <Text tag="h3" variant="textSM" class="font-medium text-base-900">
                 {section.title}
               </Text>
-              <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 xl:grid-cols-4">
+              <div class="mt-4 grid grid-cols-2 gap-y-4 md:grid-cols-2 lg:grid-cols-5">
                 {section.columns.map((column) => (
                   <div>
                     <Text
                       tag="p"
-                      variant="textBase"
-                      class="font-medium text-base-900"
+                      variant="textXS"
+                      class="font-medium text-base-900 uppercase"
                     >
                       {column.category}
                     </Text>
@@ -103,7 +126,7 @@ const pageSections = [
                         <li>
                           <Text
                             tag="a"
-                            variant="textSM"
+                            variant="textXS"
                             href={link.href}
                             class="text-base-500 hover:text-base-900 duration-300"
                           >

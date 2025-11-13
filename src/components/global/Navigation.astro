@@ -1,6 +1,198 @@
 ---
+// Assets
+import Logo from "@/components/assets/Logo.astro";
+// Fundations
+import Text from "@/components/fundations/elements/Text.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Icons
+import DotsThree from "@/components/fundations/icons/DotsThree.astro";
+import DotsNine from "@/components/fundations/icons/DotsNine.astro";
+const navGroups = [
+  {
+    title: "Navigation",
+    type: "links",
+    items: [
+      { href: "/projects", label: "Projects" },
+      { href: "/services", label: "Services" },
+      { href: "/studio", label: "Studio" },
+      { href: "/contact", label: "Contact" },
+      { href: "/system/overview", label: "Overview" },
+      { href: "#_", label: "Buy Ashbury" },
+    ],
+  },
+  {
+    title: "Connect",
+    type: "external",
+    items: [
+      { href: "https://www.linkedin.com", label: "LinkedIn" },
+      { href: "https://www.instagram.com", label: "Instagram" },
+      { href: "https://www.behance.net", label: "Behance" },
+    ],
+  },
+];
 ---
-<header>
-  <Wrapper variant="standard" class="bg-white"> Navigation </Wrapper>
+
+<header class="fixed w-full top-8 z-100 pointer-events-none">
+  <Wrapper variant="wide">
+    <nav
+      class="flex items-center gap-2 lg:max-w-sm justify-between bg-white rounded-xl mx-4 p-4 pointer-events-auto"
+    >
+      <a href="/">
+        <Logo
+          class="text-base tracking-tighter uppercase focus:outline-none transition-colors text-base-900 font-semibold"
+        />
+      </a>
+      <button
+        id="mobile-menu-toggle"
+        class="text-base-900 inline-flex items-center gap-1 focus:outline-none"
+        type="button"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        data-menu-state="closed"
+      >
+        <span class="sr-only">Toggle navigation menu</span>
+        <span aria-hidden="true" class="rotate-45" data-closed-icon>
+          <DotsNine size="base" class="text-base-900" />
+        </span>
+        <span class="hidden" aria-hidden="true" data-open-icon>
+          <DotsThree size="base" class="text-base-900" />
+        </span>
+      </button>
+    </nav>
+    <!-- Mobile Navigation rendered outside header to avoid blend effects -->
+    <nav
+      id="mobile-menu"
+      aria-hidden="true"
+      data-menu-state="closed"
+      class="fixed left-4 z-40 mt-9 mx-4 w-full max-w-sm top-0 transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] data-[menu-state=closed]:opacity-0 data-[menu-state=closed]:pointer-events-none data-[menu-state=open]:opacity-100 data-[menu-state=open]:pointer-events-auto"
+    >
+      <div
+        id="mobile-menu-inner"
+        class="h-0 overflow-hidden transition-[height] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+      >
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white rounded-xl p-4"
+        >
+          {
+            navGroups.map((group) => (
+              <div class="space-y-3">
+                <Text tag="h3" variant="textXS" class="text-base-900">
+                  {group.title}
+                </Text>
+                <div class="space-y-1">
+                  {group.items?.map((item) => (
+                    <a
+                      href={item.href}
+                      class="block text-base-500 text-xs  tracking-wide hover:text-base-900 transition-colors focus:outline-none focus:text-accent-500"
+                      rel={
+                        group.type === "external"
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
+                      target={group.type === "external" ? "_blank" : undefined}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <div
+          class="mt-1 bg-white rounded-xl p-4 flex items-center justify-between gap-2"
+        >
+          <Text tag="p" variant="textXS" class="text-base-900">
+            <span class="sr-only">Phone:</span>
+            <a
+              href="#_"
+              aria-label="Call us at 415 555 1234"
+              class="hover:text-base-900 transition-colors text-xs text-base-500"
+            >
+              (415) 555-1234
+            </a>
+          </Text>
+          <span aria-hideen="true" class="text-base-900">·</span>
+          <Text tag="p" variant="textXS" class="text-base-900">
+            <span class="sr-only">Email:</span>
+            <a
+              href="#_"
+              aria-label="Email hello at ashbury dot com"
+              class="hover:text-base-900 transition-colors text-xs text-base-500"
+            >
+              hello@ashbury.com
+            </a>
+          </Text>
+        </div>
+      </div>
+    </nav>
+    <script type="module">
+      const toggle = document.getElementById("mobile-menu-toggle");
+      const menu = document.getElementById("mobile-menu");
+      const inner = document.getElementById("mobile-menu-inner");
+      let isOpen = false;
+
+      function setMenuState(open) {
+        isOpen = open;
+        const state = open ? "open" : "closed";
+
+        // Update ARIA and data attributes
+        toggle?.setAttribute("aria-expanded", open);
+        menu?.setAttribute("aria-hidden", !open);
+        menu?.setAttribute("data-menu-state", state);
+        toggle?.setAttribute("data-menu-state", state);
+
+        // Toggle icons
+        toggle
+          ?.querySelector("[data-closed-icon]")
+          ?.classList.toggle("hidden", open);
+        toggle
+          ?.querySelector("[data-open-icon]")
+          ?.classList.toggle("hidden", !open);
+
+        // Animate height
+        if (inner) {
+          inner.style.height = open ? `${inner.scrollHeight}px` : "0px";
+          if (open) {
+            inner.addEventListener("transitionend", function setAuto(e) {
+              if (e.propertyName === "height") {
+                inner.style.height = "auto";
+                inner.removeEventListener("transitionend", setAuto);
+              }
+            });
+          }
+        }
+      }
+
+      function updateMenuPosition() {
+        const headerHeight = document
+          .querySelector("header")
+          ?.getBoundingClientRect().height;
+        menu?.style.setProperty("top", `${headerHeight}px`);
+      }
+
+      // Initialize
+      updateMenuPosition();
+      setMenuState(false);
+
+      // Event listeners
+      window.addEventListener("resize", updateMenuPosition);
+      toggle?.addEventListener("click", () => setMenuState(!isOpen));
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && isOpen) setMenuState(false);
+      });
+      menu?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => setMenuState(false));
+      });
+      document.addEventListener("click", (e) => {
+        if (
+          isOpen &&
+          !menu?.contains(e.target) &&
+          !toggle?.contains(e.target)
+        ) {
+          setMenuState(false);
+        }
+      });
+    </script>
+  </Wrapper>
 </header>

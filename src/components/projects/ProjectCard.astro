@@ -1,0 +1,27 @@
+---
+// Assets
+import { Image } from "astro:assets";
+// Fundations
+
+const { url, title, image } = {
+  url: "/projects/" + Astro.props.post.slug,
+  title: Astro.props.post.data.title,
+  image: Astro.props.post.data.cover?.url || "/images/placeholder.jpg",
+};
+---
+
+<article class="relative flex flex-col group keen-slider__slide">
+  <a
+    href={url}
+    title={`View project: ${title}`}
+    aria-label={`View project: ${title}`}
+    class="absolute inset-0 z-10"></a>
+
+  <Image
+    src={image}
+    alt={title}
+    width={1000}
+    height={1000}
+    class="object-cover object-center w-full aspect-square lg:aspect-4/2 rounded-xl h-full"
+  />
+</article>

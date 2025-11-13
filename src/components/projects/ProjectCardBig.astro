@@ -1,0 +1,42 @@
+---
+// Assets
+import { Image } from "astro:assets";
+// Fundations
+import Text from "@/components/fundations/elements/Text.astro";
+const { url, title, image, year, location } = {
+  url: "/projects/" + Astro.props.post.slug,
+  title: Astro.props.post.data.title,
+  image: Astro.props.post.data.cover?.url || "/images/placeholder.jpg",
+  year: Astro.props.post.data.year,
+  location: Astro.props.post.data.location,
+};
+---
+
+<article class="relative group">
+  <a
+    href={url}
+    title={`View project: ${title}`}
+    aria-label={`View project: ${title}`}
+    class="absolute inset-0 z-10"></a>
+
+  <Image
+    src={image}
+    alt={title}
+    width={1000}
+    height={1000}
+    class="object-cover object-center w-full aspect-square lg:aspect-9/12 rounded-2xl"
+  />
+
+  <div class="mt-4">
+    <Text
+      tag="h3"
+      variant="textXLG"
+      class="text-base-900 text-balance font-medium">{title}</Text
+    >
+    <div class="flex items-center gap-2 text-base-600 text-sm mt-1">
+      <span>{year}</span>
+      <span>•</span>
+      <span>{location}</span>
+    </div>
+  </div>
+</article>
