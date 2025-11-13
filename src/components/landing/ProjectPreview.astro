@@ -20,6 +20,7 @@ const sortedProjects = allProjects.sort(
     new Date(a.data.pubDate || a.data.year || 0).getTime()
 );
 ---
+
 <section class="overflow-hidden">
   <Wrapper variant="standard" class="pb-12 pt-24 lg:pt-12">
     <div>
@@ -38,11 +39,10 @@ const sortedProjects = allProjects.sort(
         initialText="See all projects"
       />
     </div>
-  </Wrapper>
-  <Wrapper variant="paddingless" class="pb-12">
-    <div class="grid grid-cols-1 lg:grid-cols-12 items-start gap-y-4 xl:ml-8">
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 items-start gap-y-4 gap-x-4">
       <div
-        class="order-last p-4 xl:p-8 bg-white rounded-xl justify-between flex flex-col h-full lg:order-first lg:col-span-3 max-w-screen mr-4"
+        class="order-last p-4 xl:p-8 bg-white rounded-xl justify-between flex flex-col h-full lg:order-first lg:col-span-3"
       >
         <div>
           <Text
@@ -90,8 +90,8 @@ const sortedProjects = allProjects.sort(
           </Button>
         </div>
       </div>
-      <div class="lg:col-span-9 pl-4 lg:pl-0">
-        <div id="keen-slider" class="keen-slider rounded-l-xl overflow-hidden">
+      <div class="lg:col-span-9">
+        <div id="keen-slider" class="keen-slider rounded-xl overflow-hidden">
           {
             sortedProjects
               .slice(0, 4)
