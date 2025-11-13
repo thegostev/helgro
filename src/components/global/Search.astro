@@ -91,11 +91,11 @@ const items = [
           type="text"
           id="searchInput"
           placeholder="Search..."
-          class="block w-full h-12 px-4 py-2 text-xs leading-tight align-middle bg-white border border-transparent transition duration-300 ease-in-out focus:z-10 text-base-500 ring-1 ring-base-200 placeholder-base-400 focus:border-base-50 focus:ring-base-200 focus:ring-2 focus:outline-none shadow-sm"
+          class="block w-full h-12 px-4 py-2 text-xs leading-tight align-middle bg-white border border-transparent transition duration-300 ease-in-out focus:z-10 text-base-500 ring-1 ring-base-200 placeholder-base-400 focus:border-base-50 focus:ring-base-200 focus:ring-2 focus:outline-none shadow-sm rounded-xl"
         />
         <div
           id="searchResults"
-          class="w-full mt-2 overflow-hidden overflow-y-auto max-h-100 divide-y divide-base-200 scrollbar-hide"
+          class="w-full mt-2 overflow-hidden overflow-y-auto max-h-100 divide-y divide-base-200 scrollbar-hide rounded-xl overflow-hidden"
         >
         </div>
       </div>
@@ -181,7 +181,7 @@ const items = [
       if (results.length === 0) {
         searchResults.innerHTML = `
           <div>
-            <h3 class="p-4 duration-300 hover:bg-white/80 backdrop-blur bg-white/90">
+            <h3 class="p-4 duration-300 hover:bg-base-100 bg-white">
               There's nothing here.
             </h3>
           </div>
@@ -202,7 +202,7 @@ const items = [
             : item.collection.charAt(0).toUpperCase() +
               item.collection.slice(1);
           return `
-          <div class="relative block p-4 duration-300 hover:bg-white/80 backdrop-blur bg-white/90">
+          <div class="relative block p-4 duration-300 hover:bg-base-100 bg-white">
             <a href="${item.url}" class="absolute inset-0 z-10"></a>
             <p class="block text-xs text-sm text-base-600">${meta}</p>
             <h3 class="block mt-2 text-sm font-medium text-base-900 ">
