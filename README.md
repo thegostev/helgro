@@ -1,27 +1,18 @@
 # Sandstone
 
-## Template Integrations
+![Theme preview](https://lexingtonthemes.com/OpenGraph/sandstone/twitter.png)
 
-- Tailwind CSS v4
-- Astro SEO - Powered by [@astrolib/seo](https://github.com/onwidget/astrolib/tree/main/packages/seo)
-- Astro Sitemap - https://docs.astro.build/en/guides/integrations-guide/sitemap/
 
-## Template Structure
+## Links
+- **Theme specs:** https://lexingtonthemes.com/templates/sandstone  
+- **Documentation:** https://lexingtonthemes.com/documentation  
+- **Changelog:** https://lexingtonthemes.com/changelog/sandstone  
+- **Support:** https://lexingtonthemes.com/legal/support/  
+- **Get the bundle:** https://lexingtonthemes.com  
 
-The template follows a typical Astro project structure. You'll find the following key directories and files:
-
-```
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-- `src/pages/`: Contains `.astro` and `.md` files. Each file becomes a route in your project based on its name.
-- `src/components/`: Ideal for placing your Astro/React/Vue/Svelte/Preact components.
-- `public/`: For static assets such as images that you want to serve directly.
+## Requirements
+- Node.js 18 or 20 (LTS recommended)
+- npm
 
 ## Commands
 
@@ -29,74 +20,9 @@ All commands are run from the root of the project, from a terminal:
 
 | Command                | Action                                           |
 | :--------------------- | :----------------------------------------------- |
-| `npm install`          | Installs dependencies                            |
-| `npm run dev`          | Starts local dev server at `localhost:3000`      |
-| `npm run build`        | Build your production site to `./dist/`          |
-| `npm run preview`      | Preview your build locally, before deploying     |
-| `npm run astro ...`    | Run CLI commands like `astro add`, `astro check` |
+| `npm install`          | Install dependencies                             |
+| `npm run dev`          | Start local dev server                           |
+| `npm run build`        | Build production site to `./dist/`               |
+| `npm run preview`     | Preview the production build locally             |
+| `npm run astro ...`    | Run Astro CLI commands                           |
 | `npm run astro --help` | Get help using the Astro CLI                     |
-
-Learn more - Explore more through Astro's official [documentation](https://docs.astro.build).
-
----
-
-## Components
-
-- Reusable components
-  This templatecan you includes reusable components, such as the `Text` component:
-
-- Text Component  
-  A versatile and reusable component for handling text across your project, ensuring consistency and easy customization.
-
-- **HTML Tags:** Easily change the HTML element (like `p`, `h1`, `span`, `a`) using the `tag` prop, with `p` being the default.
-- **Variants:** Pick from preset text styles (such as `displayXL` or `textBase`) for a consistent look.
-- **Custom Classes:** Add or adjust styles with the `class` prop.
-- **Accessibility:** Customize with additional props like `id`, `href`, `title`, and `style`.
-- **Content Slot:** Add any content inside the component, including optional left and right icons.
-  Example usage:
-
-```astro
-<Text tag="h1" variant="displayXL" class="text-center">
-  Welcome to the new version!
-</Text>
-```
-
-- Button Component  
-  A customizable button component with options to fit your design needs:
-
-- **Variants:** Choose from predefined styles like `primary` (dark background) and `secondary` (lighter background), with support for dark mode.
-- **Sizes:** Select `small` or `medium` for different button heights and padding.
-- **Gaps:** Control the spacing between content with the `gapSize` prop (either `small` or `medium`).
-- **Custom Classes:** Apply additional styles using the `class` prop.
-- **Slots:** Include icons or extra content with optional `left-icon` and `right-icon` slots.  
-  Example usage:
-
-```astro
-<!-- Default button -->
-<Button size="small" variant="primary">Primary small</Button>
-<!-- Button with icon -->
-<Button iconOnly size="small" variant="primary">·</Button>
-<!-- Button as link -->
-<Button isLink={true} href="#_" size="small" variant="primary">Primary small</Button>
-```
-
-- Wrapper Component  
-  A flexible layout component that helps with consistent spacing and alignment.
-
-- **Variants:** The default `standard` variant includes responsive widths, centered content, and padding.
-- **Custom Classes:** Add or change styles with the `class` prop.
-- **Content Slot:** Easily add any child components or content inside.
-
-```astro
-<Wrapper variant="standard">
-Your content goes here
-</Wrapper>
-```
-
----
-
-### [Support](https://lexingtonthemes.com/legal/support/)
-
-### [Documentation](https://lexingtonthemes.com/documentation/)
-
-### [Get your bundle](https://lexingtonthemes.com)
