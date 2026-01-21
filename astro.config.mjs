@@ -6,6 +6,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  site: "https://yourwebsite.com",
+  site: "https://sandsonte-astro.pages.dev",
   integrations: [tailwindcss(), sitemap(), mdx()],
 });
