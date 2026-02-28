@@ -1,9 +1,9 @@
 ---
-import ServicesLayout from "@/layouts/ServicesLayout.astro";
+import ProjectsLayout from "@/layouts/ProjectsLayout.astro";
 import { getCollection } from "astro:content";
 export async function getStaticPaths() {
-  const services = await getCollection("services");
-  const paths = services.map((page) => {
+  const projects = await getCollection("experiences");
+  const paths = projects.map((page) => {
     return {
       params: { slug: page.slug },
       props: { page },
@@ -17,6 +17,6 @@ const { page } = Astro.props;
 const { Content } = await page.render();
 ---
 
-<ServicesLayout frontmatter={page.data}>
+<ProjectsLayout frontmatter={page.data}>
   <Content />
-</ServicesLayout>
+</ProjectsLayout>

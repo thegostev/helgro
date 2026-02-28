@@ -5,8 +5,8 @@ import { getCollection } from "astro:content";
 const [postsCol, projectsCol, servicesCol, teamCol, legalCol] =
   await Promise.all([
     getCollection("posts"),
-    getCollection("projects"),
-    getCollection("services"),
+    getCollection("experiences"),
+    getCollection("stories"),
     getCollection("team"),
     getCollection("legal"),
   ]);
@@ -26,16 +26,16 @@ const items = [
       [data.client, data.location, data.year].filter(Boolean).join(" • ") || "",
     pubDate: data.pubDate ?? null,
     slug,
-    collection: "projects",
-    url: `/projects/${slug}`,
+    collection: "experiences",
+    url: `/experiences/${slug}`,
   })),
   ...servicesCol.map(({ data, slug }) => ({
     title: data.title,
     description: data.description ?? "",
     pubDate: null,
     slug,
-    collection: "services",
-    url: `/services/${slug}`,
+    collection: "stories",
+    url: `/stories/${slug}`,
   })),
   ...teamCol.map(({ data, slug }) => ({
     title: data.name,

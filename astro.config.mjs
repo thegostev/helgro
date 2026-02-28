@@ -6,6 +6,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  site: "https://sandsonte-astro.pages.dev",
+  site: "https://helgro.com/",
   integrations: [tailwindcss(), sitemap(), mdx()],
 });
