@@ -42,3 +42,6 @@ build/
 
 # Misc
 *.log
+
+# Wrangler
+.wrangler/
