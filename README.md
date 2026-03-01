@@ -1,10 +1,4 @@
-# Helgro
-
-Weekend experience booking website for Nordic travelers visiting Gdańsk and Tricity, Poland.
-
-## What This Is
-
-A static marketing and booking site built on the [Sandstone](https://lexingtonthemes.com/templates/sandstone) template from Lexington Themes. Visitors browse curated weekend experiences (projects), learn about the team and services, read blog content, and book experiences via embedded Cal.com with Stripe payments.
+A static marketing and booking site. Visitors browse curated weekend experiences (projects), learn about the team and services, read blog content, and book experiences via embedded Cal.com with Stripe payments.
 
 **Status**: Baseline template deployed. Content customization and booking integration in progress.
 
@@ -55,13 +49,6 @@ Helgro/                        # Project root (documentation)
     ├── astro.config.mjs
     └── package.json
 ```
-
-## Documentation
-
-- [CLAUDE.md](CLAUDE.md) — Project conventions, key patterns, known debt, quality matrix
-- [ARCHITECTURE.md](ARCHITECTURE.md) — Full system decomposition (subsystems, modules, components)
-- [docs/lexington-themes-guide.md](docs/lexington-themes-guide.md) — Sandstone template reference (components, collections, theming)
-- [docs/adr/](docs/adr/) — Architectural Decision Records
 
 ## Performance
 
