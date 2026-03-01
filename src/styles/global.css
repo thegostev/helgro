@@ -5,7 +5,7 @@
 @plugin "tailwind-scrollbar-hide";
 @theme {
   /* Typography */
-  --font-sans: "Inter", sans-serif;
+  --font-sans: "Inter Variable", sans-serif;
   /* Colors */
   /* Base */
   --color-base-50: oklch(0.985 0 0);
