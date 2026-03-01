@@ -1,0 +1,79 @@
+---
+// Assets
+import Logo from "@/components/assets/Logo.astro";
+// Fundations
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+// Content
+import { getCollection } from "astro:content";
+const team = await getCollection("team");
+---
+
+<footer class="overflow-hidden">
+  <Wrapper variant="wide" class="py-4">
+    <div class="relative rounded-3xl h-[calc(100vh-2rem)] overflow-hidden">
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        class="object-cover size-full absolute inset-0 object-center"
+      >
+        <source src="/hero.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      <div class="relative lg:max-w-xl lg:ml-auto flex flex-col h-full">
+        <div
+          class="p-8 bg-base-100 m-4 rounded-2xl h-full justify-between flex flex-col"
+        >
+          <div>
+            <Logo
+              class="text-base tracking-tighter uppercase focus:outline-none transition-colors text-base-900 font-semibold"
+            />
+            <div class="mt-12">
+              {
+                team.map((member, index) => (
+                  <>
+                    <Text
+                      tag="h3"
+                      variant="textBase"
+                      class="text-base-900font-medium leading-relaxed 2xl:text-2xl"
+                      class:list={index > 0 ? "mt-4" : ""}
+                    >
+                      {member.data.role}
+                    </Text>
+                    <Text
+                      tag="p"
+                      variant="textXS"
+                      class="text-base-500 font-medium tracking-tight 2xl:text-lg"
+                    >
+                      {member.data.name}
+                    </Text>
+                  </>
+                ))
+              }
+            </div>
+            <div class="mt-8 lg:mt-12">
+              <Text
+                tag="p"
+                variant="textLG"
+                class="text-base-600 tracking-tight text-pretty 2xl:text-2xl"
+              >
+                I've traveled enough to know that the best moments happen when
+                a local takes you somewhere you'd never find on your own. That
+                one conversation, that hidden street, that place where everything
+                just clicks. I want to be that local for you in Gdansk, Sopot,
+                Gdynia.
+              </Text>
+            </div>
+          </div>
+
+          <Text tag="p" variant="textXS" class="text-base-500">
+            © {new Date().getFullYear()} Helgro. All rights reserved.
+          </Text>
+        </div>
+      </div>
+    </div>
+  </Wrapper>
+</footer>

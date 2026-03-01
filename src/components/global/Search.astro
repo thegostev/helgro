@@ -1,0 +1,271 @@
+---
+import Button from "@/components/fundations/elements/Button.astro";
+import SearchIcon from "@/components/fundations/icons/Search.astro";
+import { getCollection } from "astro:content";
+const [postsCol, projectsCol, servicesCol, teamCol, legalCol] =
+  await Promise.all([
+    getCollection("posts"),
+    getCollection("experiences"),
+    getCollection("stories"),
+    getCollection("team"),
+    getCollection("legal"),
+  ]);
+
+const items = [
+  ...postsCol.map(({ data, slug }) => ({
+    title: data.title,
+    description: data.description,
+    pubDate: data.pubDate,
+    slug,
+    collection: "posts",
+    url: `/blog/posts/${slug}`,
+  })),
+  ...projectsCol.map(({ data, slug }) => ({
+    title: data.title,
+    description:
+      [data.client, data.location, data.year].filter(Boolean).join(" • ") || "",
+    pubDate: data.pubDate ?? null,
+    slug,
+    collection: "experiences",
+    url: `/experiences/${slug}`,
+  })),
+  ...servicesCol.map(({ data, slug }) => ({
+    title: data.title,
+    description: data.description ?? "",
+    pubDate: null,
+    slug,
+    collection: "stories",
+    url: `/stories/${slug}`,
+  })),
+  ...teamCol.map(({ data, slug }) => ({
+    title: data.name,
+    description: data.role ?? (data.bio ? String(data.bio).slice(0, 140) : ""),
+    pubDate: null,
+    slug,
+    collection: "team",
+    url: `/team/${slug}`,
+  })),
+  ...legalCol.map(({ data, slug }) => ({
+    title: data.page,
+    description: "",
+    pubDate: data.pubDate ?? null,
+    slug,
+    collection: "legal",
+    url: `/legal/${slug}`,
+  })),
+];
+---
+
+<div class="relative">
+  <Button
+    iconOnly
+    size="base"
+    variant="muted"
+    type="button"
+    id="searchButton"
+    aria-label="Search site"
+    class="fixed right-6 bottom-6 z-50"
+  >
+    <SearchIcon slot="icon" size="sm" />
+  </Button>
+
+  <div
+    id="searchModal"
+    class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/10 backdrop-blur-sm opacity-0 transition-opacity duration-200 ease-out"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="min-h-screen px-4 text-center">
+      <div
+        class="relative inline-block w-full max-w-xl mx-auto mb-8 text-left align-middle lg:mt-48 transition-all transform"
+      >
+        <button
+          type="button"
+          id="closeSearch"
+          class="absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full text-base-500 hover:text-base-700 hover:bg-white/70 backdrop-blur focus:outline-none"
+          aria-label="Close search"
+        >
+          ×
+        </button>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search..."
+          class="block w-full h-12 px-4 py-2 text-xs leading-tight align-middle bg-white border border-transparent transition duration-300 ease-in-out focus:z-10 text-base-500 ring-1 ring-base-200 placeholder-base-400 focus:border-base-50 focus:ring-base-200 focus:ring-2 focus:outline-none shadow-sm rounded-xl"
+        />
+        <div
+          id="searchResults"
+          class="w-full mt-2 overflow-hidden overflow-y-auto max-h-100 divide-y divide-base-200 scrollbar-hide rounded-xl overflow-hidden"
+        >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ items }}>
+  window.addEventListener("load", () => {
+    const searchButton = document.getElementById("searchButton");
+    const searchModal = document.getElementById("searchModal");
+    const searchInput = document.getElementById("searchInput");
+    const searchResults = document.getElementById("searchResults");
+    const closeSearch = document.getElementById("closeSearch");
+
+    // Try to use Fuse.js if available; otherwise fall back to basic filtering.
+    let fuse;
+    if (typeof Fuse !== "undefined") {
+      fuse = new Fuse(items, {
+        keys: ["title", "description", "collection", "pubDate"],
+        threshold: 0.3,
+        includeMatches: true,
+      });
+    }
+
+    function basicSearch(query) {
+      const q = query.toLowerCase();
+      return items
+        .filter((it) => {
+          const fields = [
+            it.title,
+            it.description,
+            it.collection,
+            it.pubDate ? new Date(it.pubDate).toISOString() : "",
+          ].filter(Boolean);
+          return fields.some((f) => String(f).toLowerCase().includes(q));
+        })
+        .map((item) => ({ item }));
+    }
+
+    searchResults.classList.add("hidden");
+
+    function openSearch(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      searchModal.classList.remove("hidden");
+      // Animate overlay fade-in
+      requestAnimationFrame(() => {
+        searchModal.classList.remove("opacity-0");
+        searchModal.classList.add("opacity-100");
+      });
+      document.body.style.overflow = "hidden";
+      setTimeout(() => searchInput.focus(), 100);
+    }
+
+    function closeSearchModal(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      // Animate overlay fade-out then hide
+      searchModal.classList.remove("opacity-100");
+      searchModal.classList.add("opacity-0");
+      const onEnd = (evt) => {
+        if (evt.target !== searchModal) return;
+        searchModal.classList.add("hidden");
+        searchModal.removeEventListener("transitionend", onEnd);
+      };
+      searchModal.addEventListener("transitionend", onEnd);
+      document.body.style.overflow = "";
+      searchInput.value = "";
+      searchResults.innerHTML = "";
+      searchResults.classList.add("hidden");
+    }
+
+    function renderResults(results) {
+      if (!searchInput.value.trim()) {
+        searchResults.innerHTML = "";
+        searchResults.classList.add("hidden");
+        return;
+      }
+
+      if (results.length === 0) {
+        searchResults.innerHTML = `
+          <div>
+            <h3 class="p-4 duration-300 hover:bg-base-100 bg-white">
+              There's nothing here.
+            </h3>
+          </div>
+        `;
+        searchResults.classList.remove("hidden");
+        return;
+      }
+
+      searchResults.innerHTML = results
+        .map((result) => {
+          const item = result.item;
+          const meta = item.pubDate
+            ? new Date(item.pubDate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "2-digit",
+              })
+            : item.collection.charAt(0).toUpperCase() +
+              item.collection.slice(1);
+          return `
+          <div class="relative block p-4 duration-300 hover:bg-base-100 bg-white">
+            <a href="${item.url}" class="absolute inset-0 z-10"></a>
+            <p class="block text-xs text-sm text-base-600">${meta}</p>
+            <h3 class="block mt-2 text-sm font-medium text-base-900 ">
+              ${item.title}
+            </h3>
+            <p class="block text-xs text-base-600">
+              ${item.description ?? ""}
+            </p>
+          </div>`;
+        })
+        .join("");
+
+      searchResults.classList.remove("hidden");
+    }
+
+    searchButton.addEventListener("click", openSearch);
+    searchButton.addEventListener("touchend", openSearch);
+    closeSearch.addEventListener("click", closeSearchModal);
+    closeSearch.addEventListener("touchend", closeSearchModal);
+
+    // Debounced search input
+    let debounce;
+    searchInput.addEventListener("input", (e) => {
+      clearTimeout(debounce);
+      const value = e.target.value.trim();
+      debounce = setTimeout(() => {
+        const results = value
+          ? (fuse ? fuse.search(value) : basicSearch(value)).slice(0, 20)
+          : [];
+        renderResults(results);
+      }, 120);
+    });
+
+    // Close on escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !searchModal.classList.contains("hidden")) {
+        closeSearchModal();
+      }
+    });
+
+    // NEW: Click outside modal content to close
+    searchModal.addEventListener("click", (e) => {
+      const modalContent = e.target.closest(".inline-block");
+      if (!modalContent) {
+        closeSearchModal(e);
+      }
+    });
+
+    // Keyboard shortcut: "/" or Cmd/Ctrl+K toggles search
+    document.addEventListener("keydown", (e) => {
+      const target = e.target;
+      const isTyping =
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable);
+      const isCmdK = e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey);
+      const isSlash = e.key === "/";
+      const isOpen = !searchModal.classList.contains("hidden");
+      if (!isTyping && !isOpen && (isCmdK || isSlash)) {
+        e.preventDefault();
+        openSearch(e);
+      }
+    });
+  });
+</script>

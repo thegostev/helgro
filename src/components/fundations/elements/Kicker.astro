@@ -1,0 +1,23 @@
+---
+// Props
+const { copy, variant = "light" } = Astro.props;
+// Fundations
+import Text from "@/components/fundations/elements/Text.astro";
+
+// Variant classes
+const variantClasses = {
+  light: "text-base-600",
+  dark: "text-white",
+};
+---
+
+<Text
+  tag="h2"
+  variant="textLG"
+  class:list={[
+    "flex items-center font-medium",
+    variantClasses[variant] || variantClasses.light,
+  ]}
+>
+  {copy}
+</Text>

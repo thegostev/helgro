@@ -1,0 +1,51 @@
+---
+// Assets
+import { Image } from "astro:assets";
+// Fundations
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout>
+  <section>
+    <Wrapper variant="wide" class="pt-4 pb-8">
+      <div class="relative rounded-3xl h-[calc(100vh-2rem)] overflow-hidden">
+        <Image
+          width={1440}
+          height={1080}
+          loading="eager"
+          decoding="async"
+          alt={frontmatter.image.alt}
+          src={frontmatter.image.url}
+          class="object-cover size-full absolute inset-0 object-center"
+        />
+
+        <div class="absolute bottom-4 left-4 right-4 max-w-sm flex flex-col">
+          <div class="p-8 bg-base-100 rounded-2xl w-fit">
+            <Text
+              tag="h2"
+              variant="textLG"
+              class="text-base-600 tracking-tight 2xl:text-2xl text-balance font-medium"
+            >
+              {frontmatter.title}
+            </Text>
+            <Text
+              tag="p"
+              variant="textSM"
+              class="text-base-600 tracking-tight text-pretty 2xl:text-2xl mt-2"
+            >
+              {frontmatter.description}
+            </Text>
+          </div>
+        </div>
+      </div>
+      <Wrapper
+        variant="prose"
+        class="max-w-xl mx-auto mt-8 text-base-600 space-y-4 space-x-4"
+        ><slot /></Wrapper
+      >
+    </Wrapper>
+  </section>
+</BaseLayout>

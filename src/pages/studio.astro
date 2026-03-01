@@ -1,0 +1,64 @@
+---
+// Fundations
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Text from "@/components/fundations/elements/Text.astro";
+import Kicker from "@/components/fundations/elements/Kicker.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+---
+
+<BaseLayout>
+  <section>
+    <Wrapper variant="standard" class="pt-32 pb-2">
+      <Text
+        tag="h1"
+        variant="displayXL"
+        class="text-base-900 font-medium tracking-tight lg:indent-42 text-pretty"
+      >
+        Gdansk. Sopot. Gdynia. I know them <span class="text-base-500 font-light italic"
+          >like a local</span
+        > because I am one. I'll take you to the places I'd take a <span
+          class="text-base-500 font-light italic">friend visiting</span
+        > for the first time.
+      </Text>
+      <div
+        class="columns-1 md:columns-2 lg:columns-4 mt-8 text-base-600 space-y-4 space-x-4"
+      >
+        <Text tag="p" variant="textSM">
+          I've lived in the Tricity long enough to know the spots that don't
+          make it into guidebooks. The bar where locals actually go on Friday
+          nights. The beach that's empty when the tourist ones are packed. The
+          neighborhood where the best food hides behind the least impressive
+          doors.
+        </Text>
+        <Text tag="p" variant="textSM" class="mt-4">
+          Helgro isn't a tour company. It's more like having a friend who
+          happens to know the city inside out. I build experiences around what
+          you're into - whether that's history, food, nightlife, nature, or
+          just wandering with no plan at all.
+        </Text>
+        <Text tag="p" variant="textSM">
+          Every trip is different because every person is different. No scripts,
+          no crowds, no tourist traps. Just the real Gdansk, Sopot, and Gdynia
+          - the way they're meant to be experienced.
+        </Text>
+      </div>
+    </Wrapper>
+    <Wrapper variant="wide" class="pb-12">
+      <div
+        class="relative overflow-hidden mt-12 rounded-3xl h-[calc(100vh-2rem)] items-end justify-end flex lg:items-start lg:justify-start"
+      >
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          class="object-cover size-full absolute inset-0 object-center"
+        >
+          <source src="/hero.mp4" type="video/mp4" />
+
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </Wrapper>
+  </section>
+</BaseLayout>

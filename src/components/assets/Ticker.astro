@@ -1,0 +1,19 @@
+---
+const tickerItems = [
+  "+4793837223",
+  "gostev@pm.me",
+  "Gdansk, Poland",
+  "Sopot",
+  "Gdynia",
+];
+const singleSet = tickerItems.join(" // ");
+const tickerDisplay = Array(6).fill(singleSet).join(" // ");
+---
+
+<div id="tickerElement" class="py-8 overflow-hidden relative z-20">
+  <div
+    class="relative flex snap-x snap-proximity items-center text-base-900gap-4 px-4 overflow-hidden scrollbar-hide animate-marquee w-max pause-on-hover text-sm font-light whitespace-nowrap"
+  >
+    {tickerDisplay}
+  </div>
+</div>

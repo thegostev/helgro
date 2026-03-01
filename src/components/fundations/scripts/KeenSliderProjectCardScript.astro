@@ -1,0 +1,48 @@
+<script type="module">
+  import KeenSlider from "https://cdn.jsdelivr.net/npm/keen-slider@6.8.6/+esm";
+  const keenSlider = new KeenSlider(
+    "#keen-slider",
+    {
+      loop: true,
+      slides: {
+        origin: "auto",
+        perView: 1.25,
+        spacing: 8,
+      },
+      breakpoints: {
+        "(min-width: 1024px)": {
+          slides: {
+            origin: "auto",
+            perView: 1.3,
+            spacing: 16,
+          },
+        },
+      },
+    },
+    []
+  );
+  const keenSliderPrevious = document.getElementById("keen-slider-previous");
+  const keenSliderNext = document.getElementById("keen-slider-next");
+  keenSliderPrevious.addEventListener("click", () => keenSlider.prev());
+  keenSliderNext.addEventListener("click", () => keenSlider.next());
+
+  const yearEl = document.getElementById("project-year");
+  const titleEl = document.getElementById("project-title");
+  const locationEl = document.getElementById("project-location");
+
+  function updateInfo(slide) {
+    const project = window.sortedProjects[slide];
+    if (project) {
+      yearEl.textContent = project.data.year;
+      titleEl.textContent = project.data.title;
+      locationEl.textContent = project.data.location;
+    }
+  }
+
+  keenSlider.on("slideChanged", (s) => {
+    updateInfo(s.track.details.abs % window.sortedProjects.length);
+  });
+
+  // Initialize with first slide
+  updateInfo(0);
+</script>

@@ -1,0 +1,113 @@
+---
+// Assets
+import { Image } from "astro:assets";
+import one from "@/images/services/1.png";
+import two from "@/images/services/2.png";
+import three from "@/images/services/3.png";
+import implementationImg from "@/images/services/4.png";
+import five from "@/images/services/5.png";
+import six from "@/images/services/6.png";
+// Fundations
+import Text from "@/components/fundations/elements/Text.astro";
+import Kicker from "@/components/fundations/elements/Kicker.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+const processSteps = [
+  {
+    title: " Discovery",
+    description:
+      "Every project begins with discovery. We explore your vision, assess your space, and understand your lifestyle so we can create interiors that truly reflect your personality and needs.",
+    image: one,
+  },
+  {
+    title: " Design Development",
+    description:
+      "Design development drives the creative process. Our interior designers work closely with you through mood boards, material samples, and 3D visualizations to refine concepts with clarity and intention.",
+    image: two,
+  },
+  {
+    title: " Communication",
+    description:
+      "Throughout the process, we maintain open communication and detailed planning. Regular check-ins, design presentations, and feedback sessions keep us aligned while allowing flexibility as your vision evolves.",
+    image: three,
+  },
+  {
+    title: " Implementation",
+    description:
+      "As we move from design to implementation, our focus shifts to execution and quality. Careful material sourcing, artisan coordination, and on-site supervision ensure the finished interior not only meets your expectations but creates a space you'll love for years to come.",
+    image: implementationImg,
+  },
+  {
+    title: " Procurement",
+    description:
+      "Procurement involves carefully selecting and acquiring all the materials, furniture, and finishes needed for your project. We work with trusted suppliers to ensure quality, sustainability, and timely delivery while staying within budget.",
+    image: five,
+  },
+  {
+    title: " Installation",
+    description:
+      "During installation, our team oversees the careful placement and assembly of all elements. From furniture arrangement to lighting installation, we ensure every detail is executed flawlessly to bring your vision to life.",
+    image: six,
+  },
+];
+---
+
+<section>
+  <Wrapper variant="standard" class="py-12 lg:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div>
+        <div
+          class="p-8 bg-white rounded-xl lg:sticky lg:top-24 max-w-sm flex flex-col"
+        >
+          <Kicker copy="The Process" />
+          <Text
+            tag="h3"
+            variant="textXLG"
+            class="text-base-900 text-balance mt-12 font-medium"
+          >
+            A proven methodology that transforms visions into beautiful
+            interiors through collaboration, creativity, and meticulous
+            attention to detail.
+          </Text>
+        </div>
+      </div>
+      <div
+        class="lg:col-span-2 divide-y divide-base-200 border-y border-base-200"
+      >
+        {
+          processSteps.map((step, index) => (
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 py-8 lg:sticky lg:top-0 bg-base-100">
+              <Text
+                tag="p"
+                variant="display2XL"
+                class="text-base-900 font-semibold  italic"
+              >
+                0{index + 1}.
+              </Text>
+              <div class="lg:col-span-2 text-balance">
+                <Text
+                  tag="h3"
+                  variant="displaySM"
+                  class="text-base-900 font-medium tracking-tight lg:text-balance"
+                >
+                  {step.title}
+                </Text>
+                <Text tag="p" variant="textSM" class="text-base-600 mt-2">
+                  {step.description}
+                </Text>
+              </div>
+              <Image
+                src={step.image}
+                alt={step.title}
+                width={500}
+                height={500}
+                loading="eager"
+                decoding="async"
+                class="w-full h-48 object-cover rounded-xl "
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Wrapper>
+</section>
