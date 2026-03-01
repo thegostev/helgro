@@ -1,0 +1,46 @@
+---
+// JSON-LD structured data for helgro.com
+// Schema: LocalBusiness + TouristInformationCenter
+// Validate at: https://search.google.com/test/rich-results
+const schema = {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "TouristInformationCenter"],
+  name: "Helgro",
+  description:
+    "Curated weekend experiences, hidden gems, and personal guided tours in Gdańsk, Sopot, and Gdynia — designed for Nordic travelers visiting Poland's Tricity.",
+  url: "https://helgro.com",
+  telephone: "+4793837223",
+  email: "gostev@pm.me",
+  image: "https://helgro.com/og-image.jpg",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Gdańsk",
+    addressRegion: "Pomeranian Voivodeship",
+    addressCountry: "PL",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 54.352,
+    longitude: 18.6466,
+  },
+  areaServed: [
+    { "@type": "City", name: "Gdańsk" },
+    { "@type": "City", name: "Sopot" },
+    { "@type": "City", name: "Gdynia" },
+  ],
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Saturday", "Sunday"],
+      opens: "09:00",
+      closes: "20:00",
+    },
+  ],
+  priceRange: "€€",
+  currenciesAccepted: "EUR, PLN",
+  paymentAccepted: "Cash, Credit Card",
+  inLanguage: ["en", "no", "sv", "da"],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
