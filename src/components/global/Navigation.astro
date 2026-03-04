@@ -12,7 +12,7 @@ const navGroups = [
     title: "Navigation",
     type: "links",
     items: [
-      { href: "/experiences", label: "Experiences" },
+      { href: "/experiences", label: "Experiences", accent: true },
       // { href: "/stories", label: "Stories" },
       // { href: "/studio", label: "Studio" },
       { href: "/contact", label: "Contact" },
@@ -81,7 +81,7 @@ const navGroups = [
                   {group.items?.map((item) => (
                     <a
                       href={item.href}
-                      class="block text-base-500 text-xs  tracking-wide hover:text-base-900 transition-colors focus:outline-none"
+                      class={`block text-xs tracking-wide transition-colors focus:outline-none ${item.accent ? "text-amber-500 hover:text-amber-400" : "text-base-500 hover:text-base-900"}`}
                       rel={
                         group.type === "external"
                           ? "noopener noreferrer"

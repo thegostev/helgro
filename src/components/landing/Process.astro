@@ -45,7 +45,7 @@ const processSteps = [
   {
     title: "Explore with me, then on your own",
     description:
-      "Saturday and Sunday you get 5 hours of guided experience each day, plus curated tips for the rest.",
+      `Saturday and Sunday you get 5 hours of guided <span class="text-amber-500">experience</span> each day, plus curated tips for the rest.`,
     image: six,
   },
 ];
@@ -91,9 +91,7 @@ const processSteps = [
                 >
                   {step.title}
                 </Text>
-                <Text tag="p" variant="textBase" class="text-base-600 mt-2">
-                  {step.description}
-                </Text>
+                <p class="text-base-600 mt-2 text-base" set:html={step.description} />
               </div>
               <Image
                 src={step.image}
