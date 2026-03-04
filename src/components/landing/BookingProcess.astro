@@ -1,0 +1,126 @@
+---
+// Fundations
+import Text from "@/components/fundations/elements/Text.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+---
+
+<section>
+  <Wrapper variant="standard" class="py-12 lg:py-24">
+    <Text
+      tag="p"
+      variant="displayXL"
+      class="text-base-900 font-medium tracking-tight text-pretty mb-12"
+    >
+      Donate worth of <span class="text-base-500 font-light italic">€40 per person</span>, in your local currency for <span class="text-base-500 font-light italic">5 hours</span> of Tricity experience tailored to you (or your group)
+    </Text>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+      <!-- Card 1: Header -->
+      <div class="bg-white rounded-xl p-8 flex flex-col min-h-64">
+        <Text tag="h3" variant="displaySM" class="text-base-900 font-medium tracking-tight">
+          Booking process
+        </Text>
+        <Text tag="p" variant="textBase" class="text-base-600 mt-4">
+          (Almost) easier than booking an IKEA delivery.
+        </Text>
+      </div>
+
+      <!-- Card 2: Step 1 -->
+      <div class="bg-white rounded-xl p-8 flex flex-col min-h-64">
+        <Text tag="p" variant="displaySM" class="text-base-900 font-semibold italic">
+          1.
+        </Text>
+        <Text tag="h3" variant="displaySM" class="text-base-900 font-medium tracking-tight mt-4">
+          Tell me when you arrive
+        </Text>
+        <Text tag="p" variant="textBase" class="text-base-600 mt-2">
+          Reach out to me to tell which day you'd picked.
+        </Text>
+        <ul class="mt-3 space-y-1">
+          <li>
+            <Text tag="p" variant="textBase" class="text-base-600">
+              Phone: <a href="tel:+4793837223" class="text-base-900 hover:text-base-600 transition-colors duration-200">+4793837223</a>
+            </Text>
+          </li>
+          <li>
+            <Text tag="p" variant="textBase" class="text-base-600">
+              Telegram: <span class="text-base-900">@kamelaasaa</span>
+            </Text>
+          </li>
+          <li>
+            <Text tag="p" variant="textBase" class="text-base-600">
+              WhatsApp: <a href="https://wa.me/380955334455" class="text-base-900 hover:text-base-600 transition-colors duration-200">+380955334455</a>
+            </Text>
+          </li>
+          <li>
+            <Text tag="p" variant="textBase" class="text-base-600">
+              Signal: <span class="text-base-900">@try.99</span>
+            </Text>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Card 3: Step 2 -->
+      <div class="bg-white rounded-xl p-8 flex flex-col min-h-64">
+        <Text tag="p" variant="displaySM" class="text-base-900 font-semibold italic">
+          2.
+        </Text>
+        <Text tag="h3" variant="displaySM" class="text-base-900 font-medium tracking-tight mt-4">
+          Donate
+        </Text>
+        <Text tag="p" variant="textBase" class="text-base-600 mt-2">
+          Donate equivalent of €40 to one of the following local volunteers in <a href="https://en.wikipedia.org/wiki/Kharkiv" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-base-900 transition-colors duration-200">Kharkiv, Ukraine</a>:
+        </Text>
+        <ul class="mt-3 space-y-1">
+          <li>
+            <a
+              href="https://www.spilkavolonteriv.com/en"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-base-900 hover:text-base-600 transition-colors duration-200 underline underline-offset-2"
+            >
+              <Text tag="span" variant="textBase">Spilka Volonteriv</Text>
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://chervona-kalyna.org/en/about/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-base-900 hover:text-base-600 transition-colors duration-200 underline underline-offset-2"
+            >
+              <Text tag="span" variant="textBase">Chervona Kalyna</Text>
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://2402.com.ua/en/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-base-900 hover:text-base-600 transition-colors duration-200 underline underline-offset-2"
+            >
+              <Text tag="span" variant="textBase">24.02</Text>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Card 4: Step 3 -->
+      <div class="bg-white rounded-xl p-8 flex flex-col min-h-64">
+        <Text tag="p" variant="displaySM" class="text-base-900 font-semibold italic">
+          3.
+        </Text>
+        <Text tag="h3" variant="displaySM" class="text-base-900 font-medium tracking-tight mt-4">
+          Confirm booking
+        </Text>
+        <Text tag="p" variant="textBase" class="text-base-600 mt-2">
+          Please send me the payment confirmation.
+        </Text>
+        <Text tag="p" variant="textBase" class="text-base-600 mt-2">
+          Booking finalized, looking forward to meet you!
+        </Text>
+      </div>
+
+    </div>
+  </Wrapper>
+</section>
