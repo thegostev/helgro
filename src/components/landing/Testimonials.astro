@@ -8,6 +8,9 @@ import lisaAvatar from "@/images/testimonials/lisa.png";
 import michaelAvatar from "@/images/testimonials/michael.png";
 import robertAvatar from "@/images/testimonials/robert.png";
 import saraAvatar from "@/images/testimonials/sara.png";
+import adamAvatar from "@/images/testimonials/adam.jpeg";
+import albertAvatar from "@/images/testimonials/albert.jpeg";
+import linkedinLogo from "@/images/testimonials/LI-In-Bug.png";
 // Fundations
 import Text from "@/components/fundations/elements/Text.astro";
 import Kicker from "@/components/fundations/elements/Kicker.astro";
@@ -20,17 +23,19 @@ import ArrowRight from "@/components/fundations/icons/ArrowRight.astro";
 const testimonials = [
   {
     quote:
-      "...",
+      "I'm living in Gdańsk all my life, still Alex is able to surprise me with a new toponym or historical fact about the city.",
     author: "Adam Gadomski",
     role: "Product Manager from Gdańsk",
-    avatar: saraAvatar,
+    avatar: adamAvatar,
+    linkedin: "https://www.linkedin.com/in/adam-gadomski/",
   },
   {
     quote:
-      "...",
+      "Countless times we travered across Tricity from Wejherowo to the Old Town. Alex is a good companion - eager for discovery!",
     author: "Albert Szubartowski",
     role: "Physiotherapist from Gdynia",
-    avatar: michaelAvatar,
+    avatar: albertAvatar,
+    linkedin: "https://www.linkedin.com/in/albert-szubartowski-711867320/",
   },
 ];
 ---
@@ -89,7 +94,7 @@ const testimonials = [
                   variant="displayMD"
                   class="text-base-900 font-medium tracking-tight italic"
                 >
-                  "{testimonial.quote}"
+                  {testimonial.quote}
                 </Text>
               </blockquote>
               <div class="flex items-center gap-2  mt-12 lg:mt-24">
@@ -99,13 +104,27 @@ const testimonials = [
                   class="size-12 rounded-full object-cover "
                 />
                 <div>
-                  <Text
-                    tag="p"
-                    variant="textLG"
-                    class="text-base-900 font-medium"
-                  >
-                    {testimonial.author}
-                  </Text>
+                  <div class="flex items-center gap-1.5">
+                    <Text
+                      tag="p"
+                      variant="textLG"
+                      class="text-base-900 font-medium"
+                    >
+                      {testimonial.author}
+                    </Text>
+                    <a
+                      href={testimonial.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${testimonial.author} on LinkedIn`}
+                    >
+                      <Image
+                        src={linkedinLogo}
+                        alt="LinkedIn"
+                        class="h-[1em] w-auto"
+                      />
+                    </a>
+                  </div>
                   <Text tag="p" variant="textSM" class="text-base-600">
                     {testimonial.role}
                   </Text>
