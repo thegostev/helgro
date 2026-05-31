@@ -36,7 +36,9 @@ npm run build        # Production build → dist/
 npm run preview      # Preview production build locally
 
 # Deployment
-# Cloudflare Pages auto-deploys from git push to main
+cd "/Users/Necessaire/Documents/Koding - Obsidian/1 - Code/Helgro/helgro"
+npm run deploy       # Build + publish to Cloudflare Pages
+# Cloudflare Pages also auto-deploys from git push to main
 # Current site URL: https://sandsonte-astro.pages.dev (typo in config — see Known debt)
 ```
 

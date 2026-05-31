@@ -1,21 +1,38 @@
 ---
 import { AstroSeo } from "@astrolib/seo";
+
+const DEFAULT_TITLE = "Helgro - Local Experiences in Gdansk, Sopot & Gdynia";
+const DEFAULT_DESCRIPTION =
+  "Discover Gdańsk, Sopot, and Gdynia like a local. Helgro offers curated weekend experiences, hidden gems, and personal guided tours across Poland's Tricity — designed for Nordic travelers.";
+const OG_IMAGE = "https://helgro.com/og-image.jpg";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+}
+
+const {
+  title = DEFAULT_TITLE,
+  description = DEFAULT_DESCRIPTION,
+  canonical = "https://helgro.com/",
+} = Astro.props;
 ---
 
 <AstroSeo
-  title="Helgro - Local Experiences in Gdansk, Sopot & Gdynia"
-  description="Discover Gdańsk, Sopot, and Gdynia like a local. Helgro offers curated weekend experiences, hidden gems, and personal guided tours across Poland's Tricity — designed for Nordic travelers."
-  canonical="https://helgro.com/"
+  title={title}
+  description={description}
+  canonical={canonical}
   openGraph={{
-    url: "https://helgro.com/",
-    title: "Helgro - Local Experiences in Gdansk, Sopot & Gdynia",
-    description: "Discover Gdańsk, Sopot, and Gdynia like a local. Helgro offers curated weekend experiences, hidden gems, and personal guided tours across Poland's Tricity — designed for Nordic travelers.",
+    url: canonical,
+    title: title,
+    description: description,
     images: [
       {
-        url: "https://helgro.com/og-image.jpg",
+        url: OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: "Helgro - Local Experiences in Gdansk, Sopot & Gdynia",
+        alt: title,
         type: "image/jpeg",
       },
     ],
@@ -23,4 +40,5 @@ import { AstroSeo } from "@astrolib/seo";
     type: "website",
     locale: "en_US",
   }}
+  twitter={{ cardType: "summary_large_image" }}
 />
