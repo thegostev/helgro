@@ -5,7 +5,7 @@
 @plugin "tailwind-scrollbar-hide";
 @theme {
   /* Typography */
-  --font-sans: "Inter Variable", sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   /* Colors */
   /* Base */
   --color-base-50: oklch(0.985 0 0);
@@ -56,7 +56,9 @@
   }
 }
 :root {
-  font-family: Inter, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-feature-settings:
   "liga" 1,
   "calt" 1, /* Contextual Alternates */
@@ -70,11 +72,6 @@
     "cv01" 1, /* Alternate one */
     "cv09", /* Flat-top three */
     "cv02" 1; /* Open 4 */
-}
-@supports (font-variation-settings: normal) {
-  :root {
-    font-family: InterVariable, sans-serif;
-  }
 }
 .pause-on-hover:hover {
   animation-play-state: paused;
